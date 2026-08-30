@@ -1,226 +1,146 @@
-# Recreating the Masters of Interactive Light
+# Recreating the Masters of Interactive Light — *Messa di Voce*
 
-_This project is to be done in teams of 2._
+**COLLABORATORS:** Monica Wei (Tzuyi Wei), Regina
 
-**NAME OF BOTH COLLABORATOR(S) HERE**
-
-**THE MASTERWORK YOU DREW FROM THE HAT:**
+**THE MASTERWORK WE DREW FROM THE HAT:** *Messa di Voce* (2003), Golan Levin & Zachary Lieberman
 
 ---
-
-One way to understand greatness is to look to the greats. Just as painters learn
-the technique and artistry of the old masters by recreating their paintings, so
-too shall we come to understand computer-mediated interaction by recreating the
-interactive masterworks of our time.
-
-This week, every team will draw a different masterwork from a hat. Some are
-conceptual pieces, some are historical works, some are modern-day products —
-but they all share one thing: **their central mode of interaction is carried by
-light.** Think of Tinker Bell in the original stage production of *Peter Pan*,
-represented by nothing more than a darting circle of light from an off-stage
-mirror. There was no actor playing Tinker Bell; she existed entirely through the
-way the other characters interacted with that light.
-
-Your job is to recreate the *interaction* of the piece you drew — not to build a
-museum-grade replica, but to stage the moment that makes it what it is. Someone
-who knows your piece should watch your recreation and recognize it instantly.
-Someone who has never heard of it should walk away understanding what it is
-famous for.
-
-You will do this using the interaction staging techniques we will use all semester: a
-storyboard, some acting, a phone standing in as a controllable light (the
-*Tinkerbelle* tool), a hidden human "wizard" driving it, a costume, and a
-recorded video.
-
-*Make sure you read all the instructions and understand the whole activity
-before starting!*
-
-## Prep
-
-To start, you will need:
-
-1. Read about Git [here](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F).
-2. Set up your own Github "Lab Hub" by forking the [Interactive-Lab-Hub repository](https://github.com/IRL-CT/Interactive-Lab-Hub). To get lab updates, simply use [GitHub's "Sync fork" button](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) when new content is available.
-
-3. Set up your `README.md` so it has your name and links to this lab. Learn to
-   format a README [here](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-4. **Draw your masterwork from the hat and write it at the top of this file.**
-   Whatever you drew is yours — lean into it.
-
-## Materials
-
-For this lab you will need:
-
-1. Paper, markers/pens, scissors
-2. A smartphone with a browser that can display a webpage (your stand-in "light")
-3. A computer to host the control webpage
-4. Found objects and materials to **costume your phone so it looks like the
-   device in your masterwork** — doll clothes, a paper lantern, a bottle, foil,
-   a cardboard shell, whatever it takes. Be resourceful.
-
-## Deliverables
-
-Submit all of the following in this lab folder of your Lab Hub, as links or
-uploaded files. **Each group member posts their own copy to their own Github repo**, even if the work is
-shared.
-
-1. A short **research write-up** of your masterwork (what it is, when, who made
-   it, and — most importantly — what the interaction is)
-2. **3 iterated storyboards** of the interaction in the masterwork
-5. A **video sketch** of your prototyped interaction
-6. Any **reflections** on the process
-
-Labs are due on Mondays. Make sure this page is linked from your main class hub
-page.
-
----
-
-# The Report
 
 ## Part 0. Know Your Master
 
-Before you prototype anything, get intimately acquainted with the piece you
-drew. Do real research. You are looking less for trivia than for the *shape of
-the interaction*:
+*Messa di Voce* (2003) is a live audiovisual performance made by Golan Levin and Zachary Lieberman. It was performed by two voice artists, Jaap Blonk and Joan La Barbara. It premiered at Ars Electronica in Austria on 7 September 2003, and was performed again at the ICA in London in November of the same year. Later the artists also made an installation version for the public, which has travelled to more than 12 countries. The title comes from a bel canto singing term. It means holding one note and making it slowly louder and then slowly softer.
 
-- What inputs are available to the user? What responses does the work give?
-- Who is present, and how does the piece color the relationships between them?
-- What is the piece famous for? What are its strengths and its weaknesses?
+The only input is the human voice. It is not about the words. It is about the sound itself: pitch, volume, breath, screams and long vowels all count. The system uses a microphone to analyse the pitch and the spectral density of the voice. At the same time, it uses computer vision to track the position of the speaker's head. Because of this, the graphics look like they are coming out of the performer's mouth. The official description says the software turns "every vocal nuance" into "correspondingly complex, subtly differentiated and highly expressive graphics". The important part is that different sounds grow into **different shapes**, not the same shape getting bigger or smaller. The whole performance has 12 sections, and each one has its own visual language. Some of the names are Fluid, Ripple, Bounce, Bodystamp and Pitchpaint. The idea behind this comes from the psychologist Wolfgang Köhler and his 1927 experiments on sound symbolism, which showed that certain sounds make people from different cultures think of similar shapes.
 
-  Sometimes the details of how the interaction worked are lost in history. Try filling it in with your imagination!
+There are two performers, the screen, and the audience. Blonk and La Barbara are both artists who use the human voice in a non-verbal way. Between them it is an improvised conversation: one person makes a sound and the screen answers, then the other person replies and the screen becomes something else. For the audience, they are not listening to the sound. They are **watching** it.
 
-**Describe your masterwork here, in your own words. What is the core interaction
-someone would recognize it by?**
+The work is famous because it turns sound into something you can see, in real time, and the match is close enough to make people believe it. The official description calls it "Utterly wordless, yet profoundly verbal". Its strengths are that you do not need to learn anything to use it, because everyone can make sounds; the cause and effect is very clear, because the sound and the image happen at the same time, so the audience understands the rule in one second; and the images differ in **shape**, not only in size. Its weaknesses are that it depends a lot on the skill of the performer — Blonk and La Barbara can make sounds that normal people cannot, so with an ordinary person the images would be boring. It also needs a dark room, a big projection and clean sound recording, so it does not work in every space. And the link between a sound and a shape was decided by the designers. If you change that link, it becomes a different work.
+
+The core interaction is simple: a person stands in front of a big screen and makes a sound, and graphics grow out of their mouth. Different sounds make different shapes. People recognise the work by that image — a dark background, the silhouette of a person, and moving graphics pouring out of their mouth.
+
+**Sources:** [Messa di Voce (Performance), flong.com](https://www.flong.com/archive/projects/messa/index.html) ｜ [Messa di Voce (Installation), flong.com](https://www.flong.com/archive/projects/messa_inst/index.html) ｜ [Messa di Voce, ZKM](https://zkm.de/en/artwork/messa-di-voce-0)
 
 ## Part A. Plan
 
-For your masterwork, reconstruct the interaction as a scene:
+**Setting:** A performance space inside an art museum, today. The room is dark, and the whole front wall is a glowing screen. The audience is already sitting down, and the show is about to start.
 
-- **Setting:** Where and when does this interaction happen? (a jungle, a kitchen,
-  a spaceship corridor, a nightclub, a harbor at night)
-- **Players:** Who is involved? Who else is present? Think through everyone in
-  the setting, not just the primary user.
-- **Activity:** What is happening between the players and the light?
-- **Goals:** What is each player trying to do?
+**Players:** Two performers, and the audience in the room. The first performer opens the show and calls out bubbles with their voice. The second one comes in later and makes ripples with their voice. The audience never makes a sound, but the work does not work without them — sound becoming visible is something you do *for* someone who is watching.
 
-**Describe your setting, players, activity, and goals here.**
+**Activity:** The first performer walks in and greets the audience. Then they stand in front of the screen and make a sound, and bubbles come out beside them and float up, slowly filling the top of the screen. At this moment the second performer comes in. They make a different sound, and ripples grow beside them, each wave bigger than the last, until they push the bubbles and the first performer out of the picture. The second performer walks to the middle and bows. The show ends.
 
-Now **sketch a 3 storyboards** of the interaction you are recreating. (The number may depend on the thing you drew, but stretch your thinking!) They
-don't need to be beautiful, but they must capture and communicate not only the behavior of the light, but how it affects
-and the people around it. If you're new to storyboarding, read
-[this explanation](https://www.nngroup.com/articles/storyboards-visualize-ideas/).
+**Goals:** The first performer wants to set the rule and show the audience that their voice becomes an image. They also want the stage for themselves. The second performer wants to prove that the stage does not belong to only one kind of sound, so they cover it with a completely different kind of image. The audience wants to watch a show, and we want them to leave knowing that sound has a shape.
 
-**Include pictures of your storyboards here.**
+**Our three storyboards:**
 
-Use the storyboards to decide what interaction to prototype.
+### Storyboard 1 — Bubble
+![Storyboard 1: Bubble](storyboard_1.png)
 
-**Summarize the feedback you got here.**
+### Storyboard 2 — Ripple
+![Storyboard 2: Ripple](storyboard_2.png)
+
+### Storyboard 3 — Bow / END
+![Storyboard 3: Bow and END](storyboard_3.png)
+
+We did not choose bubbles and ripples by accident. **Bounce and Ripple are real section names from the original 12 sections**, and they are also the two images of this work that people have seen the most. The two shapes are also a good contrast: bubbles are round, light, and float up; ripples are curved, strong, and spread sideways. One floats, one pushes.
+
+**Feedback:**
+
 
 ## Part B. Act out the Interaction
 
-Physically act out the interaction you planned. For now, just pretend the light
-is doing what you've scripted — a person can wave a flashlight, or you can narrate
-it aloud.
+**Things that looked better on paper than in real life:**
 
-**Are there things that seemed better on paper than when acted out?**
+The biggest gap was the light itself. On the storyboard, the bubbles and ripples were just lines we drew. We could make them any size and put them anywhere. But when we tried to build it, we found that we were not drawing — we were **making images out of light**, and light has its own limits. The size and the brightness of the light source decide whether the shape can be seen clearly or not. The storyboard told us nothing about this. (The full test is written in Part C.)
 
-**Did new ideas about the piece surface once you were on your feet?**
+**New ideas that came up once we were on our feet:**
 
-**Are there key moments in the interaction where things could go in a different direction?**
-Iterate your storyboards to capture key non-sequential aspects of the interaction. 
+At first we thought this work was about *what the shapes look like*. After making it, we found that it is about **how the shapes appear**. A paper bubble sitting still on the cloth is nothing. But when it grows frame by frame together with a sound and floats up, it becomes *Messa di Voce*. It is about time, not shape.
 
-## Part C. Prototype the Light (light first!)
+The empty screen was also much more important than we thought. Frame 2 of our storyboard, the one with nothing in it, was only meant to be a transition. But when we made it, we found that it is the base of the whole piece. The audience first has to see that the screen is empty when there is no sound. Only then does the cause and effect work when the bubbles appear. If the screen is full of shapes from the beginning, the audience will never know that the sound called them out.
 
-Use your smartphone as the light of your device. Open the browser on your phone
-to act as the "light," and use the remote control interface on your computer to
-change that light. Code and setup instructions for the *Tinkerbelle* tool are
-[here](https://github.com/IRL-CT/tinkerbelle) (we invented this tool for
-this lab). If you hit technical trouble, a manually or remotely controlled light
-switch, dimmer, or lamp is a fine substitute.
+**Key moments where things could go in a different direction:**
 
-**Get the light interaction working before anything else.** Your grade this week
-rides on the *light* being recognizable — the color, the rhythm, the timing, the
-way it answers a person. Only once your light interaction genuinely reads as your
-masterwork should you consider layering in a second modality (sound, vibration,
-motion). If in doubt, keep polishing the light. The other modalities are next
-week's business.
+The moment the second person enters is the biggest fork in the whole piece. Before that, the rule is simple: one person, one sound, one kind of shape. But once the second person comes in, we have to decide what the second sound should look like — and there are many possible answers.
+
+In the end we chose ripples, but that is definitely not the only option. For "another person's voice", the other directions we thought about were:
+
+- **Lines** — straight or bent lines that stretch out as the sound continues. This would show the *length* and the *path* of the sound instead of how it spreads.
+- **Irregular shapes around the person** — the shapes would not grow from somewhere on the screen, but right on the performer's body, like a changing outline wrapping around them. This is actually the closest to the original. *Messa di Voce* has a whole section where the visuals grow directly on the performer's head and body, so the person and the image become one thing.
+
+Each choice makes the work read differently. Ripples read like "sound travelling through space". Lines read like "sound being recorded". Shapes on the body read like "sound is a part of this person".
+
+## Part C. Prototype the Light
+
+Our method uses the fact that **light travels in straight lines**. We cut shapes out of paper and put them on a piece of translucent paper in front. Behind it we put a light source. The places blocked by the paper become dark shapes, and the places where the light passes through become the bright background. The idea is simple, but in practice everything depends on the **brightness** and the **size** of the light source.
+
+**The size of the light source mattered more than the brightness.** We did not want one small point of light making a bright spot. We wanted one large, even, glowing background, because the visuals in *Messa di Voce* fill the whole screen. That feeling of a whole interactive wall is what makes it recognisable. So we tested several options:
+
+- **A phone** (the original Tinkerbelle method): too small. The lit area was only a small spot, the edges of the paper shadows became blurry, and it could not give the feeling of a whole wall at all.
+- **A desk lamp**: bright enough, but it is a point light. The shadows had strong gradients and spread out in odd directions. The area near the lamp was too bright and the area far from it was completely dark.
+- **A floor lamp**: a slightly bigger area, but the light was still not even. The colour was also too yellow, which made the whole image warm. That is very different from the cold, digital feeling of the original.
+
+**In the end we used a computer monitor as the light source, with the brightness turned up to the maximum.** A monitor is a flat light source, which is exactly what we needed. It gives one even sheet of light instead of a point. Because of this, the edges of the shadows became clean and the paper shapes could really be read.
+
+We also tested different colours. Warm colours (yellow and orange) looked too much like candlelight or stage lighting, which pulled the work towards theatre, but *Messa di Voce* is digital and cold. Blue and cyan felt more technological, but the contrast dropped and the line between the dark paper shapes and the background became unclear. **In the end we chose white, because it gave the strongest contrast and the clearest shapes.** White light made the outlines of the paper jump out, and it was also the closest to the neutral background of the original projection.
+
+The lab instructions allow "manually or remotely controlled light switch, dimmer, or lamp" instead of a phone when there are technical problems. We only made this decision after we had actually tested the phone.
 
 ## Part D. Wizard the Device
 
-Set up a "wizard" arrangement so one person can secretly drive the light while
-another acts with it — this is how you make the device feel alive without
-building any real electronics. (Zoom works well for recording; you can pin the
-video feed of whichever scene you want to capture.)
+Our picture has two layers, which we shot separately and then put together:
 
-**Include your first attempts at recording the wizarded set-up here.**
+- **The visual layer (the light):** the bubbles and the ripples are cut paper on the translucent screen, lit from behind by the computer monitor. The two of us stayed behind the screen and **moved each paper shape by hand**, taking one photo at a time to make a stop-motion animation.
+- **The performer layer:** the two performers were filmed separately and added in later in editing.
 
-## Part E. (optional) Costume the Device
+**How we shared the work:** we did not split the jobs. We moved the paper and shot the frames together — one person moved a shape, the other checked the picture and took the photo, and we swapped whenever we wanted. We also built the screen together. For the performance parts, we filmed each other: one person acted in front of the camera while the other held it.
 
-Only now should you worry about what the device looks like. Costume your phone so it reads
-as the object from your masterwork — HAL's eye, a Simon shell, a paper-lantern
-Tinker Bell, an Ambient Orb, a lighthouse, a jack-o'-lantern, whatever you drew.
+Photos of the setup are in Part E.
 
-Think about the world your device lives in: could that environment overheat it?
-Is water a danger? Does it need to be loud and bright for an emergency, or quiet
-and calm for a bedroom?
+## Part E. Costume the Device
 
-**Include sketches/photos of what your device might look like here.**
+**The empty screen (no paper shapes):**
 
-**What concerns or opportunities shaped the way you designed its look?**
+![Setup: translucent paper over the monitor, showing a white screen](setup_blank.jpg)
+
+**With the paper bubbles added:**
+
+![Setup: paper bubbles on the translucent screen](setup_bubbles.jpg)
+
+Our setup is simple. An external monitor shows a full white image at maximum brightness. In front of it we taped a layer of translucent paper to spread the light, and the cut paper shapes go on top of that. The light passes through the paper and becomes an even white background, and the parts blocked by the cut paper become dark shapes.
+
+For the look of the device, we chose the two most famous visuals of this work: **the bubbles and the ripples**. These are the two images of *Messa di Voce* that people have seen the most (they also match the Bounce and Ripple sections of the original), so anyone who has seen the work should recognise it immediately. We did not try to recreate the whole visual language of the original. We chose the two most recognisable ones, and we made them contrast with each other.
+
+The cut paper itself also gave us limits. Because the image is made by blocking light, the shapes have to be **clear, large and simple**. Any thin line becomes blurry after the light passes through the paper. This actually forced us to simplify the bubbles and the ripples down to their most basic form, and the result is easier to read than the more complicated version we first wanted to draw.
+
+The thing we cared about most in the environment was that **you must not see the light source**. The audience should only see a glowing wall, not a computer monitor. Once you see the edge of the screen, the illusion of "a wall that answers your voice" is broken. You can see this problem in the photos above: the macOS menu bar and the Dock still show through at the top and the bottom of the paper. So when we filmed, we kept the framing inside the clean white area in the middle, and we also made sure the light covered the whole surface instead of only the centre.
 
 ## Part F. Record
 
-**Record your prototyped interaction as a video sketch.** Aim for the bar from
-the top of this lab: a viewer who knows the piece should recognize it; a viewer
-who doesn't should come away understanding what it's famous for. How might you illustrate the non-sequential aspects of the interaction in the sketch?
+▶️ **[video_sketch.mp4](video_sketch.mp4)** — click the link to play it on GitHub.
 
-**Include your video here.**
+The video is about 30 seconds long. The visuals were made with stop-motion animation, and the performers were filmed separately and added in editing. The content follows the three storyboards above: the first performer opens the show and calls out bubbles, the second one comes in and pushes the bubbles away with ripples, and the show ends with a bow.
 
-**Please indicate who you collaborated with on this lab.** Be generous in
-acknowledging their contributions, and credit any other influences (YouTube,
-Github, Twitter, a friend who lent you a lamp) that informed your recreation.
+**Collaborators and influences:**
 
----
+This lab was made together by Monica Wei and Regina. We did the storyboards, the paper cutting, the screen setup and the stop-motion shooting together, and we filmed each other for the performance parts.
 
-# Part 2 — ReMastering the light
+Background information about the original work came from Golan Levin's official website [flong.com](https://www.flong.com/archive/projects/messa/index.html) and the [ZKM page for the work](https://zkm.de/en/artwork/messa-di-voce-0).
 
-*This describes the second week's work for this lab activity.*
+**AI Usage:**
 
-## Prep (before the next lab)
+All of the design work in this lab was done by our team before any AI was used. We chose how to stage the piece, drew the three storyboards, cut the paper, tested the light sources, built the screen, and shot and edited the video ourselves. No AI was used in our ideation.
 
-Find three other groups. (How? Maybe Slack?) Visit their Lab Hub pages, watch their
-videos, and give them reactions and feedback: tell them what you saw happening,
-guess the masterwork and the goals of the characters, and ask about anything that
-wasn't clear.
+I used Claude (Anthropic) on 30 August 2026 for two things:
 
-**Who were the other groups you kibitzed with? Add links to their project pages here.**
-**Summarize the feedback you got from your partners here.**
+1. **Research support** — finding and checking facts about the original *Messa di Voce* (the premiere dates, the performers, the names of the sections, and the Köhler reference), from the sources listed in Part 0.
+2. **Writing support** — organising my notes into paragraphs, improving the wording, and putting this write-up into clear English.
 
-## Remix, Update, or Critique the Master
-
-Now that you understand your masterwork from the inside, respond to it. Do the
-recreation again, but this time make it your own — pick one of these moves (or
-combine them):
-
-1. **Remix the modality.** Your recreation no longer has to (just) use light. Use
-   vibration, sound, motion, heat — whatever best carries the interaction. Feel
-   free to fork and modify the Tinkerbelle code. (Add your updates to this lab's folder!)
-2. **Update it.** Redesign the piece for today's context, or for a setting its
-   creators never imagined (the piece with roommates in the room, with children
-   present, on a phone, in a car).
-3. **Fix its weaknesses.** You identified this master's strengths and weaknesses
-   in Part 0 — now address a weakness, or push a strength further.
-
-We will grade this second pass with an emphasis on **creativity** and on how well
-your response engages with what your master was really doing.
-
-**Document everything here — especially the storyboard and video. Photos of the
-prototype are great too.**
+All ideas, design decisions and making in this lab are our own.
 
 ---
 
+## Part 2 — ReMastering the light
+
+*Week two.*
 
 
-*Assignment lineage: this lab merges "Staging Interaction" (Interactive Lab Hub)
-with "Recreating the Masters" (Interaction Design Studio, Profs. Scott Minneman &
-Wendy Ju). Massive list of interactive light masterworks generated by Claude.ai.*
