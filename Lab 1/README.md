@@ -1,6 +1,6 @@
 # Recreating the Masters of Interactive Light — *Messa di Voce*
 
-**COLLABORATORS:** Monica Wei (Tzuyi Wei), Regina
+**COLLABORATORS:** Tzu-Yi (Monica) Wei (tw628), Tzu-You (Regina) Chang (tc845)
 
 **THE MASTERWORK WE DREW FROM THE HAT:** *Messa di Voce* (2003), Golan Levin & Zachary Lieberman
 
@@ -120,7 +120,7 @@ Cut paper only works with big simple shapes. Thin lines get blurry after the lig
 
 **Collaborators:**
 
-This lab was made by Monica Wei and Regina. We did the storyboards, the paper cutting, the setup and the shooting together, and we filmed each other for the performance parts.
+This lab was made by Tzu-Yi (Monica) Wei and Tzu-You (Regina) Chang. We did the storyboards, the paper cutting, the setup and the shooting together, and we filmed each other for the performance parts.
 
 Information about the original work came from [flong.com](https://www.flong.com/archive/projects/messa/index.html) and [ZKM](https://zkm.de/en/artwork/messa-di-voce-0).
 
