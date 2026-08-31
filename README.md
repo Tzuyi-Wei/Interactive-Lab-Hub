@@ -1,4 +1,4 @@
-# Monica Wei's Lab Hub
+# Monica (Tzuyi Wei)'s Lab Hub
 for [Interactive Device Design](https://github.com/IRL-CT/Interactive-Lab-Hub) — Fall 2026
 
 Links to the README.md for each of my labs:
