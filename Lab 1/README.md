@@ -116,7 +116,7 @@ Cut paper only works with big simple shapes. Thin lines get blurry after the lig
 
 ## Part F. Record
 
-▶️ **[video_sketch.mp4](video_sketch.mp4)** — click the link to play it on GitHub.
+**[video_sketch.mp4](video_sketch.mp4)** — click the link to play it on GitHub.
 
 **Collaborators:**
 
