@@ -116,7 +116,7 @@ Cut paper only works with big simple shapes. Thin lines get blurry after the lig
 
 ## Part F. Record
 
-**[video_sketch.mp4](video_sketch.mp4)** — click the link to play it on GitHub.
+ **[video_sketch.mp4](video_sketch.mp4)** — click the link to play it on GitHub.
 
 **Collaborators:**
 
@@ -128,4 +128,26 @@ Information about the original work came from [flong.com](https://www.flong.com/
 
 ## Part 2 — ReMastering the light
 
-*Week two.*
+This describes the second week's work for this lab activity.
+
+**Prep (before the next lab)**
+
+feedback: 
+1. The animation is really good and the story telling of the bubbles coming out of the person is a nice touch. A lot of effort put into the video. I did not recognize the Master of Light initially, I thought it would be a projector or a backlit silhouette performance. The report is nicely written out about analyzing that it is more about the how the light appears and less about what it means.
+2. The video demo is very cute! It is a brilliant idea to bridge the gap of technical restrictions of big screen and dark rooms with stop motion animation. I would like to think about more of the applications in daily settings(lamp ang projection in rooms, conferences, art performances), and how to make it more portable if for social use (maybe a wearable with projectors to help people with aphasia communicate better)
+3. Good: clear to see the visual objects change their sizes and shapes
+Vague: easy to understand that the person came after made sounds that changes the shapes of the visual objects presented. However, it’s a little bit confused whether the circles presented in the beginning were caused by the person sitting down/stopping/or something else.
+
+which team i gave feedback:
+1. https://github.com/anihadagali7/Interactive-Lab-Hub/blob/anihadagali7-Aug26-Lab/Lab%201/README.md
+2. https://github.com/aurorajxshen/Interactive-Lab-Hub
+3. https://github.com/Cyalisonliu/Interactive-Lab-Hub/tree/Fall2026/Lab%201
+
+**Remix, Update, or Critique the Master**
+![Storyboard final](storyboard_4.jpg)
+In the new version, we create new role and storyline, which updates form the feedback: 
+1. create sound to let audience undertstand the relationship between sound and the animation
+2. helpness for the deaf: to let them 'see' the word
+3. complete storyline bases on the deaf
+
+**[video_final.mp4](video_final.mp4)**
