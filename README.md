@@ -4,7 +4,7 @@ for [Interactive Device Design](https://github.com/IRL-CT/Interactive-Lab-Hub) â
 Links to the README.md for each of my labs:
 
 - [Lab 1. Recreating the Masters](Lab%201/)
-- Lab 2. Interactive Prototyping: The Clock of Pi
+- [Lab 2. Interactive Prototyping: The Clock of Pi](Lab%202/)
 - Lab 3. Chatterboxes
 - Lab 4. Ph-UI!!!
 - Lab 5. Observant Systems
