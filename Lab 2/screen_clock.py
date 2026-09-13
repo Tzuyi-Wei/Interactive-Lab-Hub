@@ -60,11 +60,28 @@ backlight = digitalio.DigitalInOut(board.D22)
 backlight.switch_to_output()
 backlight.value = True
 
+# --- Part D -----------------------------------------------------------------
+# Two fonts: a big monospace face for the clock, a smaller one for the date.
+# Monospace matters here - every digit is the same width, so the time does not
+# jitter left and right each second the way a proportional font would.
+font_time = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf", 38)
+font_date = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 16)
+
+
+def draw_centered(text, font, y, fill):
+    # textbbox gives (left, top, right, bottom) for the text, so right-left
+    # is its pixel width. Subtract that from the screen width to centre it.
+    left, _, right, _ = draw.textbbox((0, 0), text, font=font)
+    draw.text(((width - (right - left)) / 2 - left, y), text, font=font, fill=fill)
+
+
 while True:
     # Draw a black filled box to clear the image.
-    draw.rectangle((0, 0, width, height), outline=0, fill=400)
+    draw.rectangle((0, 0, width, height), outline=0, fill=(0, 0, 0))
 
-    #TODO: Lab 2 part D work should be filled in here. You should be able to look in cli_clock.py and stats.py 
+    # time.strftime formats the current time as text, exactly as in cli_clock.py
+    draw_centered(time.strftime("%H:%M:%S"), font_time, 34, "#00FF88")
+    draw_centered(time.strftime("%a  %b %d  %Y"), font_date, 88, "#FFFFFF")
 
     # Display image.
     disp.image(image, rotation)
