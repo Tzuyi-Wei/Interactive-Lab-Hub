@@ -1,5 +1,5 @@
 # Interactive Prototyping: The Clock of Pi
-**Tzuyi (Monica) Wei, Aurora Jiaxin Shen**
+**Tzuyi (Monica) Wei (tw628), Aurora Jiaxin Shen(js3996)**
 
 Does it feel like time is moving strangely during this semester?
 
