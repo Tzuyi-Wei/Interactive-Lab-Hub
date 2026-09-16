@@ -230,7 +230,19 @@ to drive.
 
 
 
-**Put the names of the people you gave feedback to here. (Even better, add links to their repos here!)**
+**feedback:**
+Jianing Li: 
+I think it's a really practical and interesting idea. You really drew a very clear Verplank diagram to show lots of specific and feasible information about you idea. I'm curious about how the clock measures the alcohol in your blood to ensure it's time limit warning precise? Or what is the mechanism behind your alcohol count down? Is it a fixed amount of time personalized according to your body data?
+
+Johnathon: 
+The idea is cool, I’d imagine the device as a wearable on my wrist so I can tap on it and see the visual feedback, sense vibrations directly. One question is the type of alcohol , is there any way to differentiate the type of drinks since different alcohol have different time of metabolism
+
+Chih-Hsin Liu:
+I really like this idea. Reframing time as “how much is still in my body” instead of “what hour is it”. It’s also actually useful.
+The only concern I’d add is how you handle logging several drinks in a row. Will there be multiple cups shown on the screen, and will the countdown be extended?
+
+
+
 
 # Lab 2 Part 2
 
