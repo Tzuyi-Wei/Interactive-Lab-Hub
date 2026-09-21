@@ -1,19 +1,3 @@
-# The Cup Clock - Lab 2 Part 2, first element of the metabolism clock.
-#
-# Instead of telling you the time of day, this clock tells you how much alcohol
-# or caffeine is still in your body. Logging a drink fills the cup; the liquid
-# drains on its own as your body metabolises it. An empty cup means you are clear.
-#
-#   button A (GPIO 23) - switch between ALCOHOL and CAFFEINE
-#   button B (GPIO 24) - log one cup
-#   both together      - reset the cup to empty
-#
-# Each mode draws its own vessel: a straight-sided beer mug with a foam head for
-# alcohol, a tapered coffee cup for caffeine.
-#
-# The drawing is kept in draw_frame() so it can be rendered without a Pi
-# attached (see preview_cup_clock.py), and main() does the hardware.
-
 import math
 import random
 import time
@@ -26,6 +10,15 @@ from PIL import Image, ImageDraw, ImageFont
 # hour for a standard drink and about five hours for a cup of coffee; DEMO_SPEED
 # runs the clock faster so the draining is visible in a short video.
 DEMO_SPEED = 60  # 1 = real time, 60 = one hour of metabolism per minute
+
+# Which MPR121 channel the copper tape on the door handle is clipped to.
+HANDLE_CHANNEL = 0
+
+# Fallback door handle: SparkFun Qwiic button. Register map is the one used in
+# the course's own button_device.py.
+QWIIC_BUTTON_ADDRESS = 0x6F
+QWIIC_BUTTON_STATUS = 0x03
+QWIIC_BUTTON_PRESSED = 0x04
 
 MODES = {
     "ALCOHOL": {
@@ -98,36 +91,56 @@ def _font(size, bold=False):
 
 
 FONT_TIME = _font(22, bold=True)
+FONT_WARN = _font(24, bold=True)
 FONT_SMALL = _font(11)
 FONT_TINY = _font(9)
 
 
 class CupState:
-    """How much metabolising is still owed, in seconds."""
+    """How much metabolising is still owed, in seconds, for each substance.
+
+    The two are tracked separately and drain at the same time: drinking a beer
+    does not clear your coffee, and switching the display does not move either
+    of them. Only what is on screen changes.
+    """
 
     def __init__(self, mode="ALCOHOL"):
         self.mode = mode
-        self.remaining = 0.0
+        self.left = {name: 0.0 for name in MODE_ORDER}
 
     @property
     def spec(self):
         return MODES[self.mode]
 
+    @property
+    def remaining(self):
+        """Seconds still owed for the substance currently on screen."""
+        return self.left[self.mode]
+
+    @remaining.setter
+    def remaining(self, value):
+        self.left[self.mode] = max(0.0, value)
+
+    @property
+    def alcohol_remaining(self):
+        """Driving safety depends on this one only - caffeine does not count."""
+        return self.left["ALCOHOL"]
+
     def add_serving(self):
         self.remaining += self.spec["clear_seconds"]
 
     def next_mode(self):
-        # Switching mode keeps the cup at the same level rather than letting it
-        # jump, because the two substances clear at very different rates.
-        fill = self.fill
+        # Purely a change of view. Both substances keep their own countdown.
         self.mode = MODE_ORDER[(MODE_ORDER.index(self.mode) + 1) % len(MODE_ORDER)]
-        self.remaining = fill * self.spec["clear_seconds"]
 
     def reset(self):
+        """Empty the cup on screen, leaving the other substance alone."""
         self.remaining = 0.0
 
     def tick(self, elapsed):
-        self.remaining = max(0.0, self.remaining - elapsed * DEMO_SPEED)
+        # Everything in the body metabolises at once, not just what is on screen.
+        for name in self.left:
+            self.left[name] = max(0.0, self.left[name] - elapsed * DEMO_SPEED)
 
     @property
     def fill(self):
@@ -138,8 +151,8 @@ class CupState:
     def servings_left(self):
         return math.ceil(self.remaining / self.spec["clear_seconds"])
 
-    def countdown(self):
-        total = int(self.remaining)
+    def countdown(self, name=None):
+        total = int(self.left[name] if name else self.remaining)
         return f"{total // 3600:01d}:{total // 60 % 60:02d}:{total % 60:02d}"
 
 
@@ -189,8 +202,42 @@ def _draw_rising_bubbles(draw, level, base_y, taper, phase):
                      fill=(255, 231, 178))
 
 
-def draw_frame(draw, state, phase=0.0):
+def _centre_text(draw, text, font, y, fill):
+    left, _, right, _ = draw.textbbox((0, 0), text, font=font)
+    draw.text(((WIDTH - (right - left)) / 2 - left, y), text, font=font, fill=fill)
+
+
+def _draw_reach_response(draw, state, phase):
+    """What the screen does while a hand is on the door handle."""
+    # Only alcohol decides this. Caffeine can still be counting down behind the
+    # scenes and it makes no difference to whether you may drive.
+    if state.alcohol_remaining <= 0:
+        draw.rectangle((0, 0, WIDTH, HEIGHT), fill=(4, 40, 20))
+        draw.rectangle((3, 3, WIDTH - 4, HEIGHT - 4), outline=(46, 204, 113), width=3)
+        _centre_text(draw, "SAFE TO DRIVE", FONT_WARN, 42, (46, 204, 113))
+        _centre_text(draw, "no alcohol left", FONT_SMALL, 80, (150, 200, 170))
+        return
+
+    # Flash roughly three times a second - fast enough to read as an alarm,
+    # slow enough that a phone camera catches both states in a video.
+    bright = int(phase * 0.85) % 2 == 0
+    draw.rectangle((0, 0, WIDTH, HEIGHT),
+                   fill=(214, 28, 28) if bright else (56, 2, 2))
+    draw.rectangle((3, 3, WIDTH - 4, HEIGHT - 4),
+                   outline=(255, 255, 255) if bright else (120, 10, 10), width=4)
+
+    _centre_text(draw, "DON'T DRIVE", FONT_WARN, 34, (255, 255, 255))
+    _centre_text(draw, state.countdown("ALCOHOL"), FONT_TIME, 68,
+                 (255, 255, 255) if bright else (200, 120, 120))
+    _centre_text(draw, "still in your body", FONT_SMALL, 100, (255, 210, 210))
+
+
+def draw_frame(draw, state, phase=0.0, touching=False):
     """Render one frame of the clock onto a 240x135 drawing surface."""
+    if touching:
+        _draw_reach_response(draw, state, phase)
+        return
+
     spec = state.spec
     taper = spec["taper"]
     empty = state.remaining <= 0
@@ -201,11 +248,17 @@ def draw_frame(draw, state, phase=0.0):
     for index, name in enumerate(MODE_ORDER):
         cy = 40 + index * 40
         active = name == state.mode
-        colour = MODES[name]["accent"] if active else (70, 70, 70)
-        draw.ellipse((14, cy - 10, 34, cy + 10), fill=colour if active else None,
+        pending = state.left[name] > 0
+        accent = MODES[name]["accent"]
+        colour = accent if active else (70, 70, 70)
+        draw.ellipse((14, cy - 10, 34, cy + 10), fill=accent if active else None,
                      outline=colour, width=2)
+        if pending and not active:
+            # A dim core: not the substance you are looking at, but still in you.
+            dim = tuple(c // 3 for c in accent)
+            draw.ellipse((19, cy - 5, 29, cy + 5), fill=dim)
         draw.text((40, cy - 6), name[0], font=FONT_SMALL,
-                  fill=colour if active else (110, 110, 110))
+                  fill=accent if active else (110, 110, 110))
     draw.line((PANEL_W, 10, PANEL_W, HEIGHT - 10), fill=(70, 70, 70), width=1)
 
     # --- the vessel --------------------------------------------------------
@@ -268,6 +321,42 @@ def draw_frame(draw, state, phase=0.0):
               fill=(120, 120, 120))
 
 
+def _open_door_handle(i2c):
+    """Return a callable that reports whether a hand is on the door handle.
+
+    Prefers the MPR121 and its copper tape; falls back to a Qwiic button if no
+    MPR121 answers. Returns None when neither is connected, in which case the
+    clock still runs and simply never shows the warning.
+    """
+    try:
+        import adafruit_mpr121
+        pad = adafruit_mpr121.MPR121(i2c)[HANDLE_CHANNEL]
+        print("door handle: MPR121 copper tape")
+        return lambda: pad.value
+    except (ImportError, ValueError, OSError, RuntimeError):
+        pass
+
+    try:
+        from adafruit_bus_device.i2c_device import I2CDevice
+        button = I2CDevice(i2c, QWIIC_BUTTON_ADDRESS)
+
+        def pressed():
+            buf = bytearray(1)
+            with button:
+                button.write_then_readinto(
+                    QWIIC_BUTTON_STATUS.to_bytes(1, "little"), buf)
+            return bool(buf[0] & QWIIC_BUTTON_PRESSED)
+
+        pressed()  # fail here rather than mid-loop if the button is not there
+        print("door handle: Qwiic button (MPR121 not found)")
+        return pressed
+    except (ImportError, ValueError, OSError, RuntimeError):
+        pass
+
+    print("door handle: none found, warning disabled")
+    return None
+
+
 def main():
     import board
     import digitalio
@@ -296,6 +385,8 @@ def main():
     button_a.switch_to_input()
     button_b.switch_to_input()
 
+    handle = _open_door_handle(board.I2C())
+
     image = Image.new("RGB", (WIDTH, HEIGHT))
     draw = ImageDraw.Draw(image)
     state = CupState()
@@ -320,8 +411,10 @@ def main():
             state.add_serving()
         was_a, was_b = a, b
 
+        touching = handle() if handle is not None else False
+
         phase += 0.35
-        draw_frame(draw, state, phase)
+        draw_frame(draw, state, phase, touching=touching)
         disp.image(image, 90)
         time.sleep(0.05)
 
