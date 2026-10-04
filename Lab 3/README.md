@@ -490,9 +490,9 @@ sitting down, and the buttons on the screen let that person act.
 | state | what starts it | what the person sees |
 |---|---|---|
 | idle | nothing | a dim dot |
-| asking | the webcam sees movement for 1.5s | "How was your day?", spoken by Piper |
+| asking | the webcam sees movement for 3s | "How was your day?", spoken by Piper |
 | listening | 2 seconds after the question | a yellow dot breathing, and a counter |
-| thinking | the person presses button B | a still red dot, "finished" |
+| thinking | the person says "that's it", or goes quiet for 8s | a still red dot, "finished" |
 | saved | the transcript comes back | the text, then "Saved. Same time tomorrow?" |
 
 The camera is frame differencing rather than face detection. It pulls 160x120
@@ -500,9 +500,13 @@ grayscale frames from ffmpeg at 4fps and compares each one to the last. With
 nobody in front of it the difference sits at 1.3, somebody sitting still reads 4
 to 5, and somebody moving normally reads 13 to 38, so the trigger is at 6.
 
-The device never endpoints. It will sit in `listening` for as long as the person
-wants, which is the whole point of Part 1, and the turn ends when the person
-presses the button.
+The device never endpoints on a short pause. It sits in `listening` for as long
+as the person wants, which is the whole point of Part 1, and the turn ends when
+they say it has: "that's it", "that's all", "I'm done". Going quiet for eight
+seconds ends it too. Eight is not a guess. The longest thinking pause measured in
+Part C was 5.19s, so this leaves nearly three seconds of room before a pause is
+mistaken for an ending. Button B does the same thing, kept for when neither of
+the other two works.
 
 Every entry is saved to `entries/` as a wav and a transcript.
 
@@ -514,48 +518,46 @@ Answer the following:
 
 ### What worked well about the system and what didn't?
 
-From my own runs, before the sessions with other people:
+Most of it ran without anyone having to think about it. Someone sits down, the
+device notices them and asks how their day was, they talk, and the turn ends
+either on eight seconds of quiet or because they said it was over.
 
-The camera opening works. You sit down, it waits about a second and a half, and
-it asks. Nobody has to find a button to begin, which was the point.
+The part people liked was that it does not cut in. That was the whole point of
+the design, and it is also what makes it feel unlike the voice assistants they
+are used to.
 
-Whisper is the weak part. One entry came back as "It was a really nice day. It
-was a really nice, nice, nice, nice day." The repetition is not in the audio. It
-appears when the recording has quiet stretches, which a journal entry always
-has, and showing the transcript on screen means the person sees it.
-
-The camera also triggers on anything that moves, not only on someone sitting
-down to use it. Walking past the desk is enough.
-
-*(to fill in after the two sessions: whether they worked out how to end the
-turn, and how long they waited before trying something)*
+Two things came back as missing. There is no way to redo an entry. One person
+wanted to be able to say something like "I want to record that again, it did not
+come out right", and nothing in the system allows for it. The other is that
+nothing can be read back. A journal you cannot reopen is only half a journal, so
+the obvious next piece is somewhere to see what you said last week, or on this
+day a year ago.
 
 ### What worked well about the controller and what didn't?
 
-There is no wizard console, so the controller here is the button the person
-presses. It is a single button, which is as small as this could be made.
-Pressing it is unambiguous and it cannot be misheard, which is more than can be
-said for anything else in this system.
+There is nothing to learn. Walking up to it starts it, and the turn ends three
+ways: say so, press the button, or stop talking for eight seconds. Nobody had to
+be told what the input was or what the output would be.
 
-What it does not do is explain itself. The button is the only part of the design
-that the person has to be told about, and the screen never mentions it.
-
-*(to fill in after the two sessions)*
+What is missing is any sign that those options exist. The screen only says
+`listening...`. Putting something like "say that's it when you are finished" on
+it would stop people guessing, and they would be more comfortable using it.
 
 ### What lessons can you take away from the WoZ interactions for designing a more autonomous version of the system?
 
-The Part 1 wizarding session is the reason this version has a button at all.
-Acting it out with a person showed that ending a turn is effortless when someone
-is visibly waiting for you, and that none of that carries over to a box. A human
-wizard hides the hardest problem instead of solving it, because the wizard reads
-things off the person that the device has no access to.
+In the Part 1 session the person knew they were talking to me. That changes how a
+turn ends. They could see me, so finishing was carried by a look or a change in
+expression, and neither of us had to do anything deliberate about it. It happened
+on its own.
 
-So the lesson is about what to automate and what not to. Part C showed that
-automatic endpointing cannot work for reflective speech at any threshold, and
-wizarding showed that a human does it without effort. A more autonomous version
-should not try to close that gap by guessing better. It should keep the decision
-with the person and spend the effort on making the invitation obvious, which is
-the part that is actually still missing.
+An automated system has none of that. It cannot read a face, and the person has
+no face to read back. So the ending has to be made explicit, and it has to be
+obvious enough that nobody spends the first minute of the conversation working
+out how to stop.
+
+That is the part wizarding hides. A person in the loop absorbs the hardest bit of
+the interaction for free, using social cues the device will never have, and you
+come away thinking that bit did not need designing.
 
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
 
@@ -564,11 +566,16 @@ so what accumulates is paired audio and text of people talking about their day i
 a room, with the pauses left in. Pauses are the thing most speech datasets throw
 away, and they are exactly what I needed in Part C.
 
-What is missing is the timing around the speech. The useful thing to log next
-would be the moment the button was pressed relative to the last word, because
-that is a direct measurement of the gap an automatic system would have to guess:
-how long after someone stops talking do they consider themselves finished. A few
-dozen of those would say more than any threshold I could pick by hand.
+What is missing is the timing around the speech. The useful thing to log next is
+the moment the turn ended relative to the last word, because that is a direct
+measurement of the gap an automatic system would have to guess: how long after
+someone stops talking do they consider themselves finished. A few dozen of those
+would say more than any threshold I could pick by hand.
+
+Which of the three endings people reach for is worth recording too. There are
+three ways to finish a turn here, saying so, going quiet, and the button, and
+nobody is told about any of them. Counting which one each person finds first
+would say whether the design needs to explain itself.
 
 The camera is already running and only its frame difference is used. Keeping a
 low rate record of that would say whether people look at the screen while they

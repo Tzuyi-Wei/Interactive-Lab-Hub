@@ -51,8 +51,11 @@ WIDTH, HEIGHT = 240, 135
 OPENING = "How was your day?"
 CLOSING = "Saved. Same time tomorrow?"
 
-# How different two webcam frames have to be before we call it a person.
+# How different two webcam frames have to be before we call it a person, and how
+# long they have to stay there. Three seconds gives someone time to sit down and
+# settle before being spoken to.
 MOTION_THRESHOLD = 6.0
+PRESENCE_SECONDS = 3.0
 
 # How long a silence has to run before the turn is treated as finished. The
 # longest thinking pause measured in Part C was 5.19s, so this leaves room.
@@ -379,7 +382,8 @@ def main():
         threading.Thread(target=transcribe, args=(samples,), daemon=True).start()
 
     enter("idle")
-    print("Ready. Button B ends a turn, button A asks again.", flush=True)
+    print("Ready. A turn ends on \"that's it\", on %.0fs of silence, "
+          "or on button B." % SILENCE_END, flush=True)
 
     try:
         while True:
@@ -429,7 +433,7 @@ def main():
             if state == "idle":
                 if camera.present:
                     seen_since = seen_since or now
-                    if now - seen_since > 1.5:
+                    if now - seen_since > PRESENCE_SECONDS:
                         seen_since = None
                         do_ask()
                 else:
