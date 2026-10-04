@@ -308,6 +308,15 @@ five second silence so the pause does not read as a crash. A still red dot means
 the turn has passed to the device. Then the transcript, which is the fix for the
 third problem above.
 
+**The storyboard again, with those changes in it.**
+
+<img src="Lab3-2.jpg" alt="Revised six panel storyboard: the device waits three seconds before asking, the turn can be ended three ways, and the transcript appears with Saved" width="760" />
+
+Panels 1 to 3 are unchanged. The three that moved are at the end: panel 4 waits
+three seconds instead of one and a half, panel 5 offers the button, "that's it"
+and the eight second pause instead of only the button, and panel 6 puts the
+script on the monitor so the person can see what was written down.
+
 ## Prototype your system
 
 [`journal.py`](journal.py) is the system, and it runs without a wizard.
