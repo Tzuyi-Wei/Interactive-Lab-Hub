@@ -432,6 +432,30 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 3. Make a new storyboard, diagram and/or script based on these reflections.
 4. (optional) Integrate [input devices](inputs.md) in the system
 
+**What needed improving.** Three things came out of Part 1.
+
+The device never showed what it had heard. `tiny.en` turned "record a quick
+check-in" into "create a quick check in", and nothing on screen would have let
+anyone catch that.
+
+Nothing told the person how to end their turn. In Part 1 a human was playing the
+device, so it was obvious: you stop talking and the person in front of you
+reacts. A box on a table gives you nothing to read.
+
+The opening is always the same question. "How was your day?" is the wrong thing
+to ask someone who has had a bad one, and the device has no way of knowing which
+kind of day it is.
+
+**Beyond speech.** The screen carries the two states, because the sound cannot.
+A yellow dot breathing slowly means listening, and it keeps breathing through a
+five second silence so that the pause does not read as a crash. A still red dot
+means the turn has passed to the device. Then the transcript appears, which also
+fixes the first problem above.
+
+**What changed in the script.** Only the ending. In Part 1 the person said
+"that's it" to a human who understood it. Here they press a button, which is the
+same decision made in a form a device can actually receive.
+
 ## Prototype your system
 
 The system should:
@@ -443,23 +467,98 @@ The system should:
 
 *Include videos or screencaptures of both the system and the controller.*
 
+[`journal.py`](journal.py) is the system. [`wizard.py`](wizard.py) can drive the
+same states from a second terminal, kept as a fallback in case a button fails
+during a session.
+
+It uses two sensors and needs nobody operating it. The webcam notices someone
+sitting down, and the buttons on the screen let that person act.
+
+| state | what starts it | what the person sees |
+|---|---|---|
+| idle | nothing | a dim dot |
+| asking | the webcam sees movement for 1.5s | "How was your day?", spoken by Piper |
+| listening | 2 seconds after the question | a yellow dot breathing, and a counter |
+| thinking | the person presses button B | a still red dot, "finished" |
+| saved | the transcript comes back | the text, then "Saved. Same time tomorrow?" |
+
+The camera is frame differencing rather than face detection. It pulls 160x120
+grayscale frames from ffmpeg at 4fps and compares each one to the last. With
+nobody in front of it the difference sits at 1.3, somebody sitting still reads 4
+to 5, and somebody moving normally reads 13 to 38, so the trigger is at 6.
+
+The device never endpoints. It will sit in `listening` for as long as the person
+wants, which is the whole point of Part 1, and the turn ends when the person
+presses the button.
+
+Every entry is saved to `entries/` as a wav and a transcript.
+
 ## Test the system
 
-Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
+Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but I recognize that can be hard.)
 
 Answer the following:
 
 ### What worked well about the system and what didn't?
-\*\**your answer here*\*\*
+
+From my own runs, before the sessions with other people:
+
+The camera opening works. You sit down, it waits about a second and a half, and
+it asks. Nobody has to find a button to begin, which was the point.
+
+Whisper is the weak part. One entry came back as "It was a really nice day. It
+was a really nice, nice, nice, nice day." The repetition is not in the audio. It
+appears when the recording has quiet stretches, which a journal entry always
+has, and showing the transcript on screen means the person sees it.
+
+The camera also triggers on anything that moves, not only on someone sitting
+down to use it. Walking past the desk is enough.
+
+*(to fill in after the two sessions: whether they worked out how to end the
+turn, and how long they waited before trying something)*
 
 ### What worked well about the controller and what didn't?
-\*\**your answer here*\*\*
+
+The controller is a single button, which is as small as this could be made.
+Pressing it is unambiguous and it cannot be misheard, which is more than can be
+said for anything else in this system.
+
+What it does not do is explain itself. The button is the only part of the design
+that the person has to be told about, and the screen never mentions it.
+
+*(to fill in after the two sessions)*
 
 ### What lessons can you take away from the WoZ interactions for designing a more autonomous version of the system?
-\*\**your answer here*\*\*
+
+The Part 1 wizarding session is the reason this version has a button at all.
+Acting it out with a person showed that ending a turn is effortless when someone
+is visibly waiting for you, and that none of that carries over to a box. A human
+wizard hides the hardest problem instead of solving it, because the wizard reads
+things off the person that the device has no access to.
+
+So the lesson is about what to automate and what not to. Part C showed that
+automatic endpointing cannot work for reflective speech at any threshold, and
+wizarding showed that a human does it without effort. A more autonomous version
+should not try to close that gap by guessing better. It should keep the decision
+with the person and spend the effort on making the invitation obvious, which is
+the part that is actually still missing.
 
 ### How could you use your system to create a dataset of interaction? What other sensing modalities would make sense to capture?
-\*\**your answer here*\*\*
+
+It already makes one. Every session writes a wav and a transcript to `entries/`,
+so what accumulates is paired audio and text of people talking about their day in
+a room, with the pauses left in. Pauses are the thing most speech datasets throw
+away, and they are exactly what I needed in Part C.
+
+What is missing is the timing around the speech. The useful thing to log next
+would be the moment the button was pressed relative to the last word, because
+that is a direct measurement of the gap an automatic system would have to guess:
+how long after someone stops talking do they consider themselves finished. A few
+dozen of those would say more than any threshold I could pick by hand.
+
+The camera is already running and only its frame difference is used. Keeping a
+low rate record of that would say whether people look at the screen while they
+talk, which would tell me whether the breathing dot is doing anything at all.
 
 <details>
   <summary><strong>Submission Cleanup Reminder (Click to Expand)</strong></summary>
