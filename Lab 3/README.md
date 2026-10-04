@@ -467,9 +467,22 @@ The system should:
 
 *Include videos or screencaptures of both the system and the controller.*
 
-[`journal.py`](journal.py) is the system. [`wizard.py`](wizard.py) can drive the
-same states from a second terminal, kept as a fallback in case a button fails
-during a session.
+[`journal.py`](journal.py) is the system, and it runs without a wizard.
+
+That is a decision rather than something I skipped. Wizard of Oz is for testing
+an interaction before you can build the hard part of it, and this design has two
+hard parts a person would normally have to stand in for. Knowing when someone has
+finished talking is one, and Part C showed that no threshold does it. Saying
+something meaningful back about what they told you is the other.
+
+Neither one is faked here. The first is handed to the person, who presses a
+button when they are done. The second I cut in Part 1, because every reply I
+drafted sounded like it was grading them. So there is nothing left for a wizard
+to pretend to be, and the sessions run with nobody operating anything.
+
+[`wizard.py`](wizard.py) exists anyway and can drive the same states from a
+second terminal. It is there in case a button fails in the middle of a session,
+not as part of the design.
 
 It uses two sensors and needs nobody operating it. The webcam notices someone
 sitting down, and the buttons on the screen let that person act.
@@ -495,7 +508,7 @@ Every entry is saved to `entries/` as a wav and a transcript.
 
 ## Test the system
 
-Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but I recognize that can be hard.)
+Try to get at least two people to interact with your system. (Ideally, you would inform them that there is a wizard *after* the interaction, but we recognize that can be hard.)
 
 Answer the following:
 
@@ -519,7 +532,8 @@ turn, and how long they waited before trying something)*
 
 ### What worked well about the controller and what didn't?
 
-The controller is a single button, which is as small as this could be made.
+There is no wizard console, so the controller here is the button the person
+presses. It is a single button, which is as small as this could be made.
 Pressing it is unambiguous and it cannot be misheard, which is more than can be
 said for anything else in this system.
 

@@ -2,15 +2,20 @@
 """The voice journal. This is the half the participant sees.
 
 The webcam notices someone sitting down and the device asks how their day was.
-After that it listens, and it never decides on its own that the turn is over,
-because Part 1 showed that no endpointing threshold is longer than the pauses
-people leave while they are thinking. The person ends their own turn by pressing
-button B, which is the "that's it" in panel 5 of the storyboard.
+After that it listens, and it does not try to work out from a short pause that
+the turn is over, because Part 1 showed that the pauses people leave while they
+are thinking run to five seconds and longer.
+
+The turn ends when the person says so. Saying "that's it" ends it, which is panel
+5 of the storyboard. Falling silent for eight seconds ends it too, which is well
+past the longest pause measured in Part C.
 
     python journal.py
 
     camera    someone sits down, the device asks first
-    button B  the person has finished, go and transcribe
+    speech    "that's it", "that's all", "I'm done"
+    silence   eight seconds with nothing said
+    button B  the same thing, for when none of the above works
     button A  ask again, if the camera did not notice
 
 wizard.py can drive the same states from another terminal, as a fallback if a
@@ -27,6 +32,7 @@ import wave
 from pathlib import Path
 
 import numpy as np
+import sherpa_onnx
 import sounddevice as sd
 
 import board
@@ -47,6 +53,20 @@ CLOSING = "Saved. Same time tomorrow?"
 
 # How different two webcam frames have to be before we call it a person.
 MOTION_THRESHOLD = 6.0
+
+# How long a silence has to run before the turn is treated as finished. The
+# longest thinking pause measured in Part C was 5.19s, so this leaves room.
+SILENCE_END = 8.0
+
+# Said at the end of a turn. Kept to whole phrases: a bare "done" turns up in
+# ordinary sentences like "I got a lot done today".
+CLOSING_PHRASES = (
+    "that's it", "thats it", "that is it",
+    "that's all", "thats all", "that is all",
+    "that's everything", "thats everything",
+    "i'm done", "im done", "i am done",
+    "i'm finished", "im finished", "i am finished",
+)
 
 
 def font(size):
@@ -128,6 +148,71 @@ class Recorder:
     @property
     def seconds(self):
         return sum(len(c) for c in self.chunks) / SAMPLE_RATE
+
+    def drain(self, taken):
+        """Everything recorded since the last call, for the watcher to read."""
+        chunks = self.chunks[taken:]
+        if not chunks:
+            return taken, np.zeros(0, dtype=np.float32)
+        return len(self.chunks), np.concatenate(chunks).reshape(-1)
+
+
+def said_closing(text):
+    cleaned = "".join(c for c in text.lower() if c.isalnum() or c in " \'")
+    return any(phrase in cleaned for phrase in CLOSING_PHRASES)
+
+
+class TurnWatcher:
+    """Listens alongside the recording for a sign that the turn is over.
+
+    Runs the same Silero VAD as listen.py, but not to endpoint with. It is used
+    to tell speech from silence, so the eight second rule has something to count,
+    and to hand each finished utterance to whisper to check for a closing phrase.
+    """
+
+    def __init__(self, recognizer):
+        config = sherpa_onnx.VadModelConfig()
+        config.silero_vad.model = str(LAB / "models" / "silero_vad.onnx")
+        config.silero_vad.min_silence_duration = 0.6
+        config.silero_vad.min_speech_duration = 0.25
+        config.sample_rate = SAMPLE_RATE
+        self.vad = sherpa_onnx.VoiceActivityDetector(config, buffer_size_in_seconds=90)
+        self.window = config.silero_vad.window_size
+        self.recognizer = recognizer
+        self.buffer = np.empty(0, dtype=np.float32)
+        self.last_voice = time.monotonic()
+        self.heard_closing = False
+
+    def feed(self, samples):
+        if len(samples) == 0:
+            return
+        self.buffer = np.concatenate([self.buffer, samples])
+        while len(self.buffer) > self.window:
+            self.vad.accept_waveform(self.buffer[:self.window])
+            self.buffer = self.buffer[self.window:]
+
+        if self.vad.is_speech_detected():
+            self.last_voice = time.monotonic()
+
+        while not self.vad.empty():
+            utterance = np.array(self.vad.front.samples, dtype=np.float32)
+            self.vad.pop()
+            self.last_voice = time.monotonic()
+            threading.Thread(target=self._check, args=(utterance,), daemon=True).start()
+
+    def _check(self, utterance):
+        segments, _ = self.recognizer.transcribe(utterance, beam_size=1)
+        text = " ".join(seg.text.strip() for seg in segments)
+        if text and said_closing(text):
+            print(f"    heard a closing phrase: {text!r}", flush=True)
+            self.heard_closing = True
+
+    @property
+    def silence(self):
+        return time.monotonic() - self.last_voice
+
+    def finished(self):
+        return self.heard_closing or self.silence > SILENCE_END
 
 
 def speak(text):
@@ -251,6 +336,8 @@ def main():
     was_a = was_b = False
 
     state = "idle"
+    watcher = None
+    taken = 0
     phase = 0.0
     transcript = ""
     seen_since = None
@@ -265,12 +352,14 @@ def main():
         Path("/tmp/journal_state").write_text(new_state)
 
     def do_ask():
-        nonlocal state
+        nonlocal state, watcher, taken
         if state == "listening":
             recorder.stop()          # asking again abandons the turn in progress
         enter("asking")
         speak(OPENING)
         time.sleep(2.0)              # the pause from the Part 1 script
+        watcher = TurnWatcher(recognizer)
+        taken = 0
         recorder.start()
         enter("listening")
 
@@ -312,6 +401,17 @@ def main():
                 do_ask()
             elif action == "end" and state == "listening":
                 do_end()
+
+            # The person ends their own turn, either by saying so or by going
+            # quiet for long enough that they clearly have.
+            if state == "listening" and watcher is not None:
+                taken, fresh = recorder.drain(taken)
+                watcher.feed(fresh)
+                if watcher.finished():
+                    why = "a closing phrase" if watcher.heard_closing else \
+                          f"{watcher.silence:.0f}s of silence"
+                    print(f"    turn ended by {why}", flush=True)
+                    do_end()
 
             # Buttons are active low, so False is pressed. Acting on the change
             # stops one press counting as many.
