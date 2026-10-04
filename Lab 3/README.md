@@ -434,27 +434,26 @@ For Part 2, you will redesign the interaction with the speech-enabled device usi
 
 **What needed improving.** Three things came out of Part 1.
 
+There was only one way to end a turn. In Part 1 the person said "that's it" to a
+human, who understood it without being told to. A device needs more than one way
+in, so a turn now ends three ways: saying so, pressing button B, or going quiet
+for eight seconds. Eight is not a guess. The longest thinking pause I measured in
+Part C was 5.19s, so it leaves nearly three seconds of room.
+
+The opening came too fast. The camera triggered after a second and a half of
+movement, which arrives before someone has finished sitting down. Three seconds
+lets them settle before they are spoken to.
+
 The device never showed what it had heard. `tiny.en` turned "record a quick
-check-in" into "create a quick check in", and nothing on screen would have let
-anyone catch that.
+check-in" into "create a quick check in" in Part 1, and nothing on screen would
+have let anyone catch it. Now the transcript appears with "Saved", so the person
+can read back what was written down.
 
-Nothing told the person how to end their turn. In Part 1 a human was playing the
-device, so it was obvious: you stop talking and the person in front of you
-reacts. A box on a table gives you nothing to read.
-
-The opening is always the same question. "How was your day?" is the wrong thing
-to ask someone who has had a bad one, and the device has no way of knowing which
-kind of day it is.
-
-**Beyond speech.** The screen carries the two states, because the sound cannot.
-A yellow dot breathing slowly means listening, and it keeps breathing through a
-five second silence so that the pause does not read as a crash. A still red dot
-means the turn has passed to the device. Then the transcript appears, which also
-fixes the first problem above.
-
-**What changed in the script.** Only the ending. In Part 1 the person said
-"that's it" to a human who understood it. Here they press a button, which is the
-same decision made in a form a device can actually receive.
+**Beyond speech.** The screen carries the states, because the sound cannot. A
+yellow dot breathing slowly means listening, and it keeps breathing through a
+five second silence so the pause does not read as a crash. A still red dot means
+the turn has passed to the device. Then the transcript, which is the fix for the
+third problem above.
 
 ## Prototype your system
 
