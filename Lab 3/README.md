@@ -347,6 +347,24 @@ sitting down, and the buttons on the screen let that person act.
 | thinking | the person says "that's it", or goes quiet for 8s | a still red dot, "finished" |
 | saved | the transcript comes back | the text, then "Saved. Same time tomorrow?" |
 
+<img src="setup.jpg" alt="The webcam on the left, the Pi with its screen in the middle, the speaker on the right" width="430" />
+
+The webcam sits across the desk facing whoever is talking, the speaker is beside
+the Pi, and the microphone is the one built into the webcam bar.
+
+The three states the person actually reads:
+
+<p float="left">
+<img src="state_listening.jpg" alt="The screen showing a yellow dot, listening, and a seven second counter" width="250" />
+<img src="state_finished.jpg" alt="The screen showing a pink dot and the word finished" width="250" />
+<img src="state_saved.jpg" alt="The screen showing the transcript of what was said, with Saved underneath" width="250" />
+</p>
+
+The counter under `listening...` is the only thing moving during a long pause,
+which is what tells the person the device has not frozen. The last one is the
+transcript, and it is the only chance anyone gets to see that it heard "really
+good" twice.
+
 The camera is frame differencing rather than face detection. It pulls 160x120
 grayscale frames from ffmpeg at 4fps and compares each one to the last. With
 nobody in front of it the difference sits at 1.3, somebody sitting still reads 4
