@@ -347,6 +347,9 @@ sitting down, and the buttons on the screen let that person act.
 | thinking | the person says "that's it", or goes quiet for 8s | a still red dot, "finished" |
 | saved | the transcript comes back | the text, then "Saved. Same time tomorrow?" |
 
+[**system_demo.mov**](system_demo.mov) is a run through of the whole thing: the
+device noticing someone, asking, listening without interrupting, and saving.
+
 <img src="setup.jpg" alt="The webcam on the left, the Pi with its screen in the middle, the speaker on the right" width="430" />
 
 The webcam sits across the desk facing whoever is talking, the speaker is beside
