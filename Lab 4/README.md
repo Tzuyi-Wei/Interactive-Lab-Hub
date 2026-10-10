@@ -334,6 +334,32 @@ Build a cardboard or other low-fidelity physical prototype of your design.
 
 **\*\*\*Document your rough prototype with photos and/or video.\*\*\***
 
+The jar is a cardboard box with its flap as the lid, and
+[`food_gatekeeper.py`](food_gatekeeper.py) runs it.
+
+<p float="left">
+<img src="prototype_sensor.jpg" alt="The red VCNL4040 proximity sensor taped to the front edge of the cardboard lid, with its Qwiic cable running off the side" width="250" />
+<img src="prototype_servo.jpg" alt="A blue 9g micro servo at the back corner of the box, its horn taped to the lid at the hinge" width="250" />
+<img src="prototype_wiring.jpg" alt="The SparkFun Servo pHAT on the Pi, with the servo on channel 0, the sensor on the Qwiic port and its own USB-C cable for power" width="250" />
+</p>
+
+The proximity sensor is taped to the front edge of the lid, the servo sits at the
+back corner with its horn taped to the lid at the hinge, and the Servo pHAT on the
+Pi drives the servo on channel 0 with its own USB-C supply. The sensor ended up on
+the lid rather than behind a hole in the front as sketched, because the front
+edge is where a hand comes in.
+
+[**prototype_demo.mov**](prototype_demo.mov) shows a hand reaching for the box and
+the lid snapping shut on it.
+
+With nothing in front of it the sensor reads 0 to 4, and a hand near the box
+reads anywhere from about 40 to 145, so the lid closes above 60. A hand that
+comes in fast jumps straight past that, and one that creeps in slowly has to get
+quite close before it does. The lid closes in one jump so it reads as a bite,
+stays shut until the hand has been gone for three seconds, and then opens again
+slowly. The servo turned out to be mounted the opposite way round to what the
+code first assumed, so open is 10° and closed is 100°.
+
 ---
 
 ## Part 2
