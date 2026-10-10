@@ -286,9 +286,49 @@ As you develop your Feast Automata concept, consider where the sensor and actuat
 
 **\*\*\*Draw 5 sketches that explore different physical arrangements for your sensing and actuation.\*\*\***
 
+<img src="sketches-1.jpg" alt="Three sketches: the cheers ritual, the self-rotating marshmallow stick and the candy game" width="760" />
+
+<img src="sketches-2.jpg" alt="Two sketches: the food gatekeeper snapping its lid shut on a hand, and the chef mouse pulling a cook's hair" width="760" />
+
+| Sketch | Sensing | Actuation | Where things sit |
+|---|---|---|---|
+| Cheers ritual | capacitive sensor | servo, speaker | copper pad on the side of the mug; a pair of cardboard hands on a servo under the table clap when two mugs touch |
+| Self-rotating marshmallow stick | capacitive sensor | servo | copper tape on the handle; the servo at the end of the stick turns it while it is held over the fire |
+| Candy game | joystick | servo | joystick on the front of a cabinet; a servo under the prize box drops a candy when you win |
+| Food gatekeeper | distance sensor | servo, speaker | distance sensor behind a hole on the front of the jar; the servo at the hinge snaps the lid shut on a hand that reaches in after 10pm |
+| Chef mouse | camera, microphone | servo, speaker | a mouse on the cook's head; a servo in its arm pulls the cook's hair on a wrong step |
+
 **\*\*\*What questions do these sketches raise? What do you need to physically prototype to answer them?\*\*\***
 
+- **Cheers ritual:** glass does not conduct, so does a clink register at all, or only
+  the hands holding the mugs? Holding a mug is already a touch, so what tells a
+  clink apart from just picking it up?
+- **Marshmallow stick:** the servo only sweeps about 120°, so the stick rocks back and
+  forth rather than turning all the way round. Is that enough to toast evenly, and
+  can a 9g servo hold a stick that long at the end of it?
+- **Candy game:** what is the game? The joystick is only an input, so the screen or
+  board has to carry the whole game, and the drop needs a trapdoor that opens
+  every time and does not jam.
+- **Food gatekeeper:** where does the sensor have to sit so it sees a hand reaching
+  for the jar and not someone walking past? How far should the hand be when the
+  lid starts to close, and can the servo close it fast enough to feel like a bite
+  without hurting anyone?
+- **Chef mouse:** nothing in the kit can tell a wrong step in cooking. That needs a
+  camera and some kind of recognition, which is a much bigger project than the
+  servo.
+
+For the gatekeeper, the questions are physical ones, so they need a cardboard jar
+to answer: the sensor's height and angle, the trigger distance, how the servo horn
+connects to the lid, and how fast the lid can move.
+
 **\*\*\*Pick one design to prototype and explain why.\*\*\***
+
+The **food gatekeeper**. One distance reading drives one servo motion, so the
+sensing and the actuation map onto each other directly, and the lid is the thing
+your hand was going for anyway, so the response lands exactly where the action
+is. The 10pm rule gives it a personality without making the electronics any
+harder, and the whole thing can be built from a cardboard box with the servo on
+the hinge. The speaker is an extra that can come in once the lid works.
 
 Build a cardboard or other low-fidelity physical prototype of your design.
 
