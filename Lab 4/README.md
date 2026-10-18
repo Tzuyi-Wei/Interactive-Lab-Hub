@@ -155,18 +155,22 @@ Inside, everything sits in cut packing foam: the servo is taped in the back
 corner at the hinge, the Pi with the Servo pHAT sits next to it, and the speaker
 lies along the front. Only the sensor shows on the outside.
 
-**Works like.**
+The finished jar, with paper snacks in its mouth, the Pi and Servo pHAT beside
+it and the speaker in front:
 
 <img src="final_gatekeeper.jpg" alt="The finished gatekeeper on the floor: a cardboard box with pompom eyes and paper teeth, its mouth open with paper snacks inside, the sensor under the bottom teeth, the Pi and Servo pHAT beside it and the speaker in front" width="430" />
 
-[**final_demo.mov**](final_demo.mov) shows the finished jar working: a hand
-reaches for the snacks in its mouth, the lid bites down and it says "Stop! You
-can't eat!", and a second later the mouth springs open again.
+**Works like.** [`food_gatekeeper.py`](food_gatekeeper.py) reads the VCNL4040
+proximity sensor under the bottom teeth about twenty times a second. With nothing
+in front of it the reading sits around 10 to 30, and a hand at the mouth pushes
+it past 60. The jar rests open with the servo at 70°. When the reading goes over
+60, the servo jumps straight to 0° in one move, which shuts the lid, and the
+speaker plays [`stop.wav`](stop.wav) in the background so the lid keeps
+watching while it talks. The lid stays shut while the sensor still sees the
+hand, and once the hand has been gone for one second the servo sweeps back to
+70° in steps of 5°, which takes about a third of a second. The night rule
+(10pm to 6am) is in the code, but it is switched to always on for the demo.
 
-The jar rests open at 70°. Above a proximity reading of 60 the lid jumps to 0°
-and the speaker plays [`stop.wav`](stop.wav). Once the hand has been gone for
-one second, the lid opens back to 70° in about a third of a second.
-
-**Acts like.** The same video, [**final_demo.mov**](final_demo.mov), is also how
-a person meets it: you reach into its open mouth for a snack, it bites down and
-tells you off, and then lets go so you can pull your hand back out.
+**Acts like.** [**final_demo.mov**](final_demo.mov) shows how a person meets it:
+you reach into its open mouth for a snack, it bites down and tells you off, and
+then lets go so you can pull your hand back out.
