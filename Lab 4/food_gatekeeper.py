@@ -1,5 +1,7 @@
+import subprocess
 import time
 from datetime import datetime
+from pathlib import Path
 
 import qwiic_proximity
 import pi_servo_hat
@@ -8,17 +10,18 @@ import pi_servo_hat
 # The jar's lid rests open. After 10pm, a hand reaching for the jar is
 # detected by a Qwiic proximity sensor behind a hole in the front of the
 # jar, and the servo on the hinge snaps the lid shut. Once the hand is
-# gone, the lid slowly opens again.
+# gone, the lid slowly opens again. Right after the bite, the speaker
+# tells them off.
 
 SERVO_CH = 0
-LID_OPEN = 10
-LID_CLOSED = 100
+LID_OPEN = 70
+LID_CLOSED = 0
 
 # How long the lid stays shut after the hand has gone, and how slowly it
 # opens again afterwards.
-HOLD_CLOSED = 3.0
-REOPEN_STEP = 2
-REOPEN_DELAY = 0.03
+HOLD_CLOSED = 1.0
+REOPEN_STEP = 5
+REOPEN_DELAY = 0.02
 
 # Calibrate this value for your own jar and sensor placement.
 # Run qwiic_distance.py first to compare the proximity reading with
@@ -31,6 +34,12 @@ HAND_THRESHOLD = 60
 NIGHT_START = 22
 NIGHT_END = 6
 ALWAYS_NIGHT = True
+
+# "Stop! You can't eat!", made on a Mac with:
+#   say -o stop.wav --data-format=LEI16@22050 "Stop! You can't eat!"
+STOP_SOUND = Path(__file__).resolve().parent / "stop.wav"
+# Set to False to test the lid on its own.
+SPEAKER_ON = True
 
 
 def is_night():
@@ -69,6 +78,9 @@ try:
             print(f"\nHand detected after hours! Proximity = {proximity}")
             # One jump instead of a sweep, so it reads as a bite.
             servo.move_servo_position(SERVO_CH, LID_CLOSED)
+            # Played in the background so the lid can stay responsive.
+            if SPEAKER_ON:
+                subprocess.Popen(["aplay", "-q", str(STOP_SOUND)])
 
             # Keep the lid shut until the hand has been gone for HOLD_CLOSED.
             last_seen = time.time()
