@@ -411,6 +411,32 @@ The distance sensor sits at the front of the rim where a hand comes in, the serv
 at the hinge moves the lid, and the Pi is hidden in the body of the jar. When the
 sensor sees a person, the servo closes the lid first and then the speaker speaks.
 
+**Questions to consider.**
+
+- **How does the sensor shape the response?** The proximity sensor only knows how
+  close something is, not what it is, so the jar treats every close hand as a
+  snack thief. That fits the joke, since at night any hand is a suspect.
+- **How does the arrangement change the interaction?** The sensor has to be where
+  the hand comes in. In the first box it sat on the lid; in the second it moved to
+  the front rim just under the teeth, which does not move when the lid does. The
+  servo sits at the hinge, so the lid swings like a jaw instead of sliding.
+- **What makes it feel clear or playful?** The lid closes in one jump rather than
+  a sweep, which is what makes it feel like a bite. It stays shut for three
+  seconds after the hand leaves and then opens slowly, so it seems to calm down
+  rather than snap back.
+- **What changes when you adjust placement or motion?** The threshold decides how
+  close you get before it bites. At 60 a fast reach triggers it straight away,
+  but a slow one has to get quite close. The servo also turned out to be mounted
+  the other way round, so open and closed had to be swapped.
+
+**Reflection.** Connecting the sensor to the servo was the easy part; most of
+the work was physical. Where the sensor sits, which way the servo is mounted and
+how light the lid is all decided whether it worked at all. The fun part was how
+much the look changes the same motion: in a plain box the lid just closes, but
+with teeth and eyes it bites. The surprise was how much the timing matters,
+since the instant close and the slow reopen do more for its personality than
+anything in the code.
+
 See encoder_accel_servo_dashboard.py in the Lab 4 folder for an optional example of chaining together three devices.
 
 **`Lab 4/encoder_accel_servo_dashboard.py`**
