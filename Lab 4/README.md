@@ -166,3 +166,7 @@ can't eat!", and a second later the mouth springs open again.
 The jar rests open at 70°. Above a proximity reading of 60 the lid jumps to 0°
 and the speaker plays [`stop.wav`](stop.wav). Once the hand has been gone for
 one second, the lid opens back to 70° in about a third of a second.
+
+**Acts like.** The same video, [**final_demo.mov**](final_demo.mov), is also how
+a person meets it: you reach into its open mouth for a snack, it bites down and
+tells you off, and then lets go so you can pull your hand back out.
