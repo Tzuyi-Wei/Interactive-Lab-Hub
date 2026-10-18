@@ -574,6 +574,25 @@ Document all the prototypes and iterations you have designed and worked on! Agai
 * "Works like": shows what the device can do
 * "Acts like": shows how a person would interact with the device
 
+**Looks like.** The second build moved into a bigger box and became a face, one
+step at a time.
+
+<p float="left">
+<img src="build_1_box.jpg" alt="A plain cardboard box with its lid held open, the proximity sensor taped to the middle of the front rim and foam packing inside" width="250" />
+<img src="build_2_teeth.jpg" alt="The same box with folded white paper teeth along the edge of the lid and the front rim, the sensor just below the lower teeth" width="250" />
+<img src="build_3_eyes.jpg" alt="The box with two white pompom eyes on the lid, the lid half closed over the teeth" width="250" />
+</p>
+
+First the box, with the sensor in the middle of the front rim. Then paper teeth on
+the lid and the rim, so the lid reads as a jaw, with the sensor just below the
+bottom row. Then two pompom eyes on the lid, which turn the box into a monster.
+
+<img src="build_inside.jpg" alt="Inside the box: the servo taped in the back corner at the hinge, the Pi with the Servo pHAT, and a speaker, all sitting in cut foam, with the sensor cable running to the front" width="380" />
+
+Inside, everything sits in cut packing foam: the servo is taped in the back
+corner at the hinge, the Pi with the Servo pHAT sits next to it, and the speaker
+lies along the front. Only the sensor shows on the outside.
+
 ---
 
 ## Deliverables \& Submission for Lab 4
