@@ -115,21 +115,24 @@ sensor sees a person, the servo closes the lid first and then the speaker speaks
   the front rim just under the teeth, which does not move when the lid does. The
   servo sits at the hinge, so the lid swings like a jaw instead of sliding.
 - **What makes it feel clear or playful?** The lid closes in one jump rather than
-  a sweep, which is what makes it feel like a bite. It stays shut for three
-  seconds after the hand leaves and then opens slowly, so it seems to calm down
-  rather than snap back.
+  a sweep, which is what makes it feel like a bite, and the speaker says "Stop!
+  You can't eat!" as it does. The first prototype stayed shut for three seconds
+  and reopened slowly, which felt more sulky than snappy. In the new jar it holds
+  for one second and springs back open in about a third of a second, which
+  reads as a warning nip rather than a sulk.
 - **What changes when you adjust placement or motion?** The threshold decides how
   close you get before it bites. At 60 a fast reach triggers it straight away,
-  but a slow one has to get quite close. The servo also turned out to be mounted
-  the other way round, so open and closed had to be swapped.
+  but a slow one has to get quite close. The angles changed with every build: in
+  the bigger box the servo sat the other way round again, and after trying 50 to
+  0, 50 to -20 and 70 to -20, it settled on 70° open and 0° closed.
 
 **Reflection.** Connecting the sensor to the servo was the easy part; most of
 the work was physical. Where the sensor sits, which way the servo is mounted and
 how light the lid is all decided whether it worked at all. The fun part was how
 much the look changes the same motion: in a plain box the lid just closes, but
 with teeth and eyes it bites. The surprise was how much the timing matters,
-since the instant close and the slow reopen do more for its personality than
-anything in the code.
+since the instant close and how quickly it lets go do more for its personality
+than anything in the code.
 
 ## F. Final Documentation
 
@@ -151,3 +154,15 @@ bottom row. Then two pompom eyes on the lid, which turn the box into a monster.
 Inside, everything sits in cut packing foam: the servo is taped in the back
 corner at the hinge, the Pi with the Servo pHAT sits next to it, and the speaker
 lies along the front. Only the sensor shows on the outside.
+
+**Works like.**
+
+<img src="final_gatekeeper.jpg" alt="The finished gatekeeper on the floor: a cardboard box with pompom eyes and paper teeth, its mouth open with paper snacks inside, the sensor under the bottom teeth, the Pi and Servo pHAT beside it and the speaker in front" width="430" />
+
+[**final_demo.mov**](final_demo.mov) shows the finished jar working: a hand
+reaches for the snacks in its mouth, the lid bites down and it says "Stop! You
+can't eat!", and a second later the mouth springs open again.
+
+The jar rests open at 70°. Above a proximity reading of 60 the lid jumps to 0°
+and the speaker plays [`stop.wav`](stop.wav). Once the hand has been gone for
+one second, the lid opens back to 70° in about a third of a second.
