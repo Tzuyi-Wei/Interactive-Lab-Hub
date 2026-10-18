@@ -394,6 +394,23 @@ For Part 2, build the Feast Automata interaction you developed in Part D by conn
 
 Iterate on the sensing, movement, and physical form, and document what you discover.
 
+**The story.**
+
+<img src="storyboard.jpg" alt="Six panel storyboard: a snack jar with eyes and teeth that people fill with snacks, that lets them take one in the morning, bites a hand that reaches in at night, and leaves them with a no late-night snacks habit" width="760" />
+
+The gatekeeper is for people who do not want to eat late-night snacks. During the
+day it is an ordinary snack jar, and anyone can put snacks in or take them out.
+At night, a hand reaching in gets bitten, and the jar tells them to stop. The
+point is the habit it leaves behind: no snacks after dark.
+
+**How sensing and actuation connect.**
+
+<img src="interaction_diagram.jpg" alt="The jar as a monster with eyes and a toothed lid: the servo at the lid's hinge, the distance sensor at the front of the rim, a speaker beside it, and the Raspberry Pi in the body, with input distance sensor leading to output servo then speaker" width="760" />
+
+The distance sensor sits at the front of the rim where a hand comes in, the servo
+at the hinge moves the lid, and the Pi is hidden in the body of the jar. When the
+sensor sees a person, the servo closes the lid first and then the speaker speaks.
+
 See encoder_accel_servo_dashboard.py in the Lab 4 folder for an optional example of chaining together three devices.
 
 **`Lab 4/encoder_accel_servo_dashboard.py`**
