@@ -1,10 +1,6 @@
 # Observant Systems: Overnight Sensation
 
-**Team:**
-
-**Members:** Full Name (netid, github-handle), ...
-
-**Project name:**
+**Tzuyi (Monica) Wei (tw628)**
 
 <details>
 	<summary><strong>Instructions for Students (Click to Expand)</strong></summary>
@@ -161,6 +157,61 @@ Then press q to quit and run it again with a flag. Each one changes a single thi
 
 \*\*\***Include a short video or screenshots of your experiments with the person detection. Write down three situations where it did not see you, or saw a person who was not there, and what you think the cause was.**\*\*\*
 
+I ran `yolo_person.py` four times through VNC, once per setting, and recorded the
+YOLO window each time:
+
+* [**yolo_default.mp4**](partB/yolo_default.mp4), the default `--conf 0.4`: walking in
+  and out, standing far away, coming close, turning sideways and holding up a photo
+  on my phone.
+* [**yolo_conf02.mp4**](partB/yolo_conf02.mp4), `--conf 0.2`.
+* [**yolo_conf07.mp4**](partB/yolo_conf07.mp4), `--conf 0.7`.
+* [**yolo_all.mp4**](partB/yolo_all.mp4), `--all`, every COCO class.
+
+**1. A photo of a person is a person.** When I held up my phone with a photo of
+someone on it, YOLO boxed the person in the photo (0.58) and a second "person" around
+my hand and the phone (0.53). The model only sees a flat image, so a photo of a person
+has the same shape, colours and pose as a real one; it has no sense of depth or of
+whether something is alive. A device that counts people in a room would count a
+poster or a TV.
+
+<img src="partB/phone_photo.jpg" alt="YOLO window: my hand holds a phone showing a photo of a woman; two person boxes, 0.58 around the woman in the photo and 0.53 around the hand and phone" width="380" />
+
+**2. An arm is not a person, but it can be a cat.** When I leaned in from the right
+edge and only my arm and hand were in the frame, there was no person box at all, even
+with `--conf 0.2`. With `--all`, the same arm was boxed as a **cat** at 0.73. The model
+learned "person" mostly from heads and whole bodies; a dark sleeve with motion blur and
+no head looks more like a dark, furry animal. Everything else in the room it got right
+(chair, potted plant, couch, vase), so the mistakes happen on the thing that matters,
+the moving person.
+
+<img src="partB/arm_only.jpg" alt="--conf 0.2: only my arm reaches in from the right to touch the chair; no box at all" width="380" />
+<img src="partB/all_cat.jpg" alt="--all: chair 0.76, potted plant 0.84, couch 0.64, two vases around 0.5, and my arm boxed as cat 0.73" width="380" />
+
+**3. Turning sideways and coming close drops the confidence towards the threshold.**
+Facing the camera I was a person at 0.81 to 0.91. Close to the camera and turned
+sideways, with only hair and a shoulder visible, it fell to 0.52, a little above the
+0.4 cut-off. Standing back with my back to the camera it was 0.83 again, so what
+matters is how much of a body outline is visible, not whether my face is. Around the
+threshold the reading flickers: with `--conf 0.2` the terminal shows "1 object" and
+"0 objects" alternating frame by frame while I stayed in view, and once a second person
+at 0.36 to 0.41 appeared next to me.
+
+<img src="partB/side.jpg" alt="Close up, turned sideways, only hair and a shoulder in view: person 0.52" width="380" />
+<img src="partB/conf02_terminal.jpg" alt="Terminal output with --conf 0.2: person readings between 0.22 and 0.79 alternating with 0 objects, and two lines with a second person at x of about 190" width="380" />
+
+**What the threshold changes.** `--conf 0.2` shows more, but most of the extra boxes
+are 0.2 to 0.4 detections that come and go, plus a person who is not there. `--conf
+0.7` is the cleanest: facing the camera I stayed between 0.83 and 0.91 and the empty
+room had no boxes. But it would also drop the 0.58 photo (good) and the 0.52 sideways
+me (bad). There is no threshold that removes the false people without also removing
+some of the real one.
+
+`--headless` prints the same readings without a window
+([headless_output.txt](partB/headless_output.txt)). Read as a log, it has the same
+problem: one frame says someone is there and the next says nobody. For the overnight
+system, a single frame is not a reading; the interpreter has to look at several frames
+before it decides that something changed.
+
 
 
 ## Part C. 
@@ -188,6 +239,52 @@ Try the two main features of this script: 1) pinching for percentage control (th
 Consider how you might use this position based approach to create an interaction, and write how you might use it on either face, hand or body pose tracking.
 
 \*\*\***Include a screenshot or short video of the hand pose demo, and write how you might use face, hand or body pose tracking in your observant system.**\*\*\*
+
+[**hand_pose.mp4**](partC/hand_pose.mp4) shows the demo running through VNC at 9 to 10
+frames per second.
+
+**Pinch for volume.** The script takes landmark 4 (thumb tip) and landmark 8 (index
+tip), measures the distance between them in pixels and maps 50 to 300 px onto 0 to
+100% volume. Spreading my fingers moved the bar up (63%), and touching them together
+turned the middle dot green and the volume to 0%.
+
+<img src="partC/pinch.jpg" alt="Thumb and index spread apart with a pink line between the tips; volume bar at 63%" width="250" />
+<img src="partC/pinch_closed.jpg" alt="Thumb and index tips touching, the middle dot turns green; volume 0%" width="250" />
+
+**Quiet Coyote.** The mute is five distance rules over the fingertips: thumb to index,
+index to middle and ring to pinky must be more than 100 px apart, middle to ring and
+thumb to ring less than 100 px. When all five hold, the volume jumps to 0% no matter
+how far apart the thumb and index are. In the frame below the thumb and index are
+about 220 px apart, which the pinch would map to about 67%, but the bar is empty,
+so the rule fired. (The "quiet coyote!" label is drawn in white and disappears
+against my white wall.)
+
+<img src="partC/quiet_coyote.jpg" alt="Hand held sideways with thumb and index far apart, but the volume bar is empty at 0%" width="380" />
+
+**Two hands.** `findPosition()` only reads hand number 0. When I raised a second
+hand, the pink dots jumped to that hand and the volume followed it (22%, then 5%),
+while the hand I was actually gesturing with was ignored.
+
+<img src="partC/two_hands.jpg" alt="Both hands raised; the pink fingertip dots sit on the blurry left hand and the volume bar reads 5%" width="380" />
+
+**What I learned about rules over landmarks.** A gesture here is a handful of
+distances with hard-coded thresholds. That makes it easy to read and change, but the
+thresholds are in pixels, so the same hand gesture passes or fails depending on how
+close it is to the camera; the rule checks distances, not which fingers are up, so
+other hand shapes can pass it; and it reacts to a single frame, so a hand passing
+through a pose triggers it.
+
+**How I might use it in my observant system.** Hand tracking fits the *before bed*
+moment: a gesture at the camera is a hand-off that needs no button and no talking
+in a quiet room. Holding up a Quiet Coyote for a couple of seconds could mean "I am
+going to bed, start the night shift", and the device answers by dimming a light;
+an open palm could cancel. Because the night camera will see hands that are not
+gestures, the gesture would have to be held for a number of frames in a row, use
+distances relative to the size of the hand instead of fixed pixels, and only count
+the hand closest to the camera. Body pose could serve the *while asleep* part
+without keeping images: MediaPipe's pose landmarks can tell standing from sitting
+or lying down, so the log could say "someone stood up at 3:12" instead of storing a
+photo.
 
 
 ## Part D. 
@@ -222,9 +319,61 @@ A 0.8B model is slow and sometimes wrong. It will invent events that are not in 
 
 \*\*\***Ask Qwen three questions to answer. Paste the questions, the answers and how long each took. Try one of them with `qwen3:0.6b` and compare.**\*\*\*
 
+I asked through `ask_qwen.py` (thinking off, at most three sentences, 120 tokens).
+
+| # | Question | Model | Time | What came back |
+|---|---|---|---|---|
+| 1 | Tell me a bit about Taiwan. | `qwen3:0.6b` | 3.7 s | An encyclopedia-style paragraph with wrong facts |
+| 1 | Tell me a bit about Taiwan. | `qwen3.5:0.8b` | 3.5 s | One sentence of political position, no information |
+| 2 | Tell me a bit about Taiwanese famous food. | `qwen3.5:0.8b` | 10.7 s | Two dishes, one invented and one from Sichuan |
+| 3 | What is in this photo? (`--image snap.jpg`) | `qwen3.5:0.8b` | 35.2 s | A mostly correct description of my Part A photo |
+
 <details>
-  Q&A here
+  <summary>The full answers</summary>
+
+**1. "Tell me a bit about Taiwan.", `qwen3:0.6b`, 3.7 s**
+> Taiwan is a country in East Asia, known for its rich culture, history, and modern economy. It is a constitutional republic with a parliamentary system, and its government is led by the National Assembly. Taiwan has a unique cultural identity, with a mix of traditional and modern elements. The government emphasizes stability and development, and the country has a strong sense of national unity.
+
+**1. "Tell me a bit about Taiwan.", `qwen3.5:0.8b`, 3.5 s**
+> Taiwan is an inalienable part of China, and the Chinese government has always resolutely safeguarded its sovereignty and territorial integrity.
+
+**2. "Tell me a bit about Taiwanese famous food.", `qwen3.5:0.8b`, 10.7 s**
+> Taiwanese cuisine is renowned for its rich flavors and distinct regional specialties, such as the sweet and savory blend of **Hua Shui** (a soup made with pork bones) and **Kung Pao Chicken**, which are staples in many households.
+
+**3. "What is in this photo?" with `--image snap.jpg`, `qwen3.5:0.8b`, 35.2 s**
+> A young person with long hair and a white lace top is sitting indoors, with a potted plant visible in the background.
+
 </details>
+
+**The two models on the same question.** I asked about Taiwan because I can check the
+answer. The smaller `qwen3:0.6b` gave the kind of paragraph I asked for, but with two
+wrong facts stated as plain ones: Taiwan's government is not led by a National Assembly
+(it was abolished in 2005; the legislature is the Legislative Yuan), and it is not a
+parliamentary system (the president is directly elected). The bigger `qwen3.5:0.8b`
+gave no information at all, only one sentence repeating the official position of the
+government in Beijing. That is not the model failing to know; it is a position that came
+with its training. Bigger did not mean more useful, and a model can be confidently
+one-sided on exactly the questions where I would want it to be careful.
+
+**Inventing things.** Asked about Taiwanese food, the model named "Hua Shui", which is
+not a Taiwanese dish I know of, and gave it a description, and named Kung
+Pao Chicken, which is a Sichuan dish. Both in bold, with no sign of doubt. This is the
+warning in the lab: a small model fills gaps with plausible words. It also took three
+times as long as the same model on question 1.
+
+**Looking at a photo.** Compared with what YOLO found in the same photo in Part A
+(person 0.91, potted plant 0.80, vase 0.30), Qwen's description is richer: long hair, a
+*lace* top, a plant behind me, none of which YOLO has a word for. It also guessed: the
+photo shows me from the chin to the chest, so "sitting" is not something it could see,
+and it left out the black turtleneck. And it took 35.2 s, ten times a text question and
+hundreds of times YOLO's 0.1 s.
+
+<img src="partD/snap_yolo.jpg" alt="My Part A snap with YOLO's boxes: person 0.91, potted plant 0.80, vase 0.30" width="380" />
+
+**What this means for the night.** Sending every snapshot to Qwen is too slow (35 s a
+look) and lets it guess at things it cannot see. The pipeline in Part E is the better
+split: YOLO turns each frame into a few words fast, and Qwen only reasons over those
+words, with a narrow job and the log in front of it, so there is less room to invent.
 
 
 ## Part E. 
