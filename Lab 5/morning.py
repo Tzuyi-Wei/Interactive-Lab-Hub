@@ -49,7 +49,7 @@ def read_night(path):
     away = [e["away_s"] for e in events if e["event"] == "phone_on" and "away_s" in e]
     taken = sum(1 for e in events if e["event"] == "phone_off")
     return {"bedtime": bedtime, "handed_in": handed, "taken": taken,
-            "away_min": round(sum(away) / 60), "logged": bool(night)}
+            "away_s": sum(away), "logged": bool(night)}
 
 
 night = read_night(args.log)
@@ -93,8 +93,11 @@ def facts_text(n):
     parts.append(f"The phone was put on the stand at {n['handed_in']}." if n["handed_in"]
                  else "The phone was never put on the stand.")
     if n["taken"]:
-        parts.append(f"The phone was taken off the stand {n['taken']} time(s) during the night, "
-                     f"for about {n['away_min']} minute(s) in total.")
+        times = "once" if n["taken"] == 1 else "twice" if n["taken"] == 2 else f"{n['taken']} times"
+        minutes = round(n["away_s"] / 60)
+        away = (f"{n['away_s']} seconds" if n["away_s"] < 60 else
+                "about 1 minute" if minutes == 1 else f"about {minutes} minutes")
+        parts.append(f"The phone was taken off the stand {times} during the night, for {away} in total.")
     else:
         parts.append("The phone stayed on the stand all night.")
     return " ".join(parts)
