@@ -436,15 +436,78 @@ Use storyboards and/or [Verplank diagrams](https://ccrma.stanford.edu/courses/25
 
 \*\*\***Insert ideas, sketches, Verplank diagrams and storyboards for your night-time interaction here.**\*\*\*
 
+**Ideas I considered.** A snack jar that reports who raided it at night (a sequel to my
+Lab 4 food gatekeeper), a desk that reports whether I actually went to bed, a window that
+logs the darkest hour, a "ghost detector" that turns YOLO's false people into ghosts, a
+monster checker that reports "0 monsters, 1 cat (actually your arm)", and a plant that
+describes its night. I picked the one that fixes my own problem: I stay up on my phone,
+and in the morning I turn the alarm off and fall back asleep.
+
+**The Sleep Gatekeeper.** A small stand on my desk that guards my phone at night and
+won't let me snooze in the morning.
+
+<img src="partF/storyboard_v1.jpg" alt="Nine-panel storyboard in three rows. Before bed: at 12 AM the stand shouts it's time to sleep while the user still holds the phone; the user puts the phone on the stand and it says good night; the user sleeps while the stand works. While asleep: the stand detects the phone with a distance sensor; when a hand takes the phone it flashes and shouts No No No; it records 6 hours and the phone taken 3 times. When awake: an alarm rings beside the sleeping user; the user has to solve 36 + 78; the user answers with two fingers and the stand says Correct, Morning" width="600" />
+
+1. **Before bed.** I set a bedtime. When it comes and my phone is not on the stand, the
+   stand keeps making noise. Putting the phone on it is the hand-off: the noise stops and
+   it says good night.
+2. **While asleep.** A distance sensor under the phone checks whether the phone is still
+   there. If I take it during the night, the stand makes noise again. It logs when the
+   phone went on, every time it was taken and for how long.
+3. **When awake.** The stand is the alarm. It only stops when I solve a math question and
+   answer it by holding up fingers to the camera.
+
+**How the idea changed while I worked it out.**
+
+* *A camera on the desk could not tell if I was in bed on my phone.* My first version
+  watched the desk to see whether I was still sitting there at bedtime, but scrolling in
+  bed would pass as asleep. Watching the phone instead of me fixes that, and it keeps the
+  camera pointed at a stand, not at a bed.
+* *The camera cannot see the phone in the dark.* Part B showed how YOLO's confidence drops
+  when it sees less; in a dark room it would decide the phone is gone and wake me at 3 AM.
+  The Lab 4 proximity sensor measures reflected infrared, so darkness does not matter. The
+  camera is only used in the morning, when the light is on.
+* *Raising my hands is not enough to wake up.* I would do it half asleep and go back to
+  bed. A math question makes my brain start. I thought about adding ten squats counted by
+  YOLO, but kept only the math question to keep the morning simple.
+* *Fingers can only say 1 to 10.* So the program picks the answer first (1 to 10) and
+  builds the question around it, e.g. (36 + 78) ÷ 57 = 2. Python computes both; Qwen is
+  never trusted with the arithmetic after Part D.
+
 ## Prep for Part 2
 
 1. Look at and give feedback on the Part F storyboards.
    **Put the feedback for your ideas here.**
+
+   My classmates' feedback on the first storyboard came down to three points:
+
+   * **The night should matter in the morning.** If I take my phone three times, the
+     morning should not be the same as after a good night. *Change:* the difficulty of
+     the math question now depends on last night's log.
+   * **I can answer from bed and go back to sleep.** In my first storyboard the stand
+     was next to the bed. *Change:* the user has to get out of bed and stand in front of
+     the stand to answer with gestures.
+   * **The log is never shown to me.** The stand records the night, but the morning
+     panels never tell me anything about it. *Change:* in the morning I also get last
+     night's information (when the phone went on the stand, how many times I took it).
 2. [Update your Lab Hub](prep.md#get-the-latest-content) to get the latest content for Part 2.
 3. Decide where the device will spend the night and who else lives there. Get their OK before the first run.
 4. Revise your storyboard with the feedback and with what you learned in Part E about where the pipeline breaks.
 
 \*\*\***Post your revised storyboard here.**\*\*\*
+
+<img src="partF/storyboard_v2.jpg" alt="Six-panel revised storyboard. 1: at the set time the stand tells the user holding a phone it's time to bed. 2: the user sleeps while the phone stands on the stand, which runs all night checking the phone is not taken. 3: a hand takes the phone, the stand makes noise until it is put back and records how many times it was taken. 4: in the morning the stand rings as an alarm next to the user in bed. 5: the user, out of bed, faces the stand, which asks a math question to be answered with gestures. 6: the stand with a speaker on top and a camera in front; the difficulty depends on last night's log and the user also gets last night's information" width="700" />
+
+1. **Before bed.** At the bedtime I set, the stand reminds me to put my phone on it.
+2. **While asleep.** The stand runs all night, checking that the phone stays on it.
+3. **Taking the phone.** If I take it, the stand makes noise until I put it back, and
+   records every time.
+4. **Morning alarm.** The stand is the alarm.
+5. **Out of bed.** To turn it off I have to get up, stand in front of the stand and
+   answer a math question by holding up fingers to the camera.
+6. **The night comes back.** The difficulty of the question depends on last night's
+   log, and the stand also tells me about last night. The last panel shows what the
+   stand looks like: a speaker on top and the camera on the front.
 
 ## Part G. 
 ### Design the interaction before
