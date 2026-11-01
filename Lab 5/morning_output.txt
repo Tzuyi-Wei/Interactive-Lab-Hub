@@ -1,0 +1,5 @@
+last night: {'bedtime': '00:48', 'handed_in': '00:48', 'taken': 1, 'away_s': 4, 'logged': True} -> medium
+alarm ringing; stand in front of the camera and show a hand
+says: Good morning. You took your phone once last night, so this one is harder. What is 22 plus 2, divided by 6? Answer with your fingers.
+says: Correct!
+says: Alarm off. Bedtime was set for 00:48. The phone was put on the stand at 00:48. The phone was taken off the stand once during the night, for 4 seconds in total. I counted every sneak, and so does today's math!

@@ -1,0 +1,71 @@
+{"t": "2026-11-01T00:48:28", "event": "start", "bedtime": "2026-11-01T00:48", "wake": "2026-11-01T10:00", "phone_on": true}
+{"t": "2026-11-01T00:48:28", "event": "bedtime"}
+{"t": "2026-11-01T00:48:28", "event": "handed_in"}
+{"t": "2026-11-01T00:48:28", "alive": true, "phone_on": true}
+{"t": "2026-11-01T00:49:55", "event": "phone_off"}
+{"t": "2026-11-01T00:50:00", "event": "phone_on", "away_s": 4}
+{"t": "2026-11-01T00:58:28", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:08:28", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:18:29", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:28:29", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:38:29", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:48:29", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:58:30", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:08:30", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:18:30", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:28:31", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:38:31", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:48:31", "alive": true, "phone_on": true}
+{"t": "2026-11-01T01:58:32", "alive": true, "phone_on": true}
+{"t": "2026-11-01T02:08:32", "alive": true, "phone_on": true}
+{"t": "2026-11-01T02:18:32", "alive": true, "phone_on": true}
+{"t": "2026-11-01T02:28:33", "alive": true, "phone_on": true}
+{"t": "2026-11-01T02:38:33", "alive": true, "phone_on": true}
+{"t": "2026-11-01T02:48:33", "alive": true, "phone_on": true}
+{"t": "2026-11-01T02:58:34", "alive": true, "phone_on": true}
+{"t": "2026-11-01T03:08:34", "alive": true, "phone_on": true}
+{"t": "2026-11-01T03:18:34", "alive": true, "phone_on": true}
+{"t": "2026-11-01T03:28:35", "alive": true, "phone_on": true}
+{"t": "2026-11-01T03:38:35", "alive": true, "phone_on": true}
+{"t": "2026-11-01T03:48:35", "alive": true, "phone_on": true}
+{"t": "2026-11-01T03:58:35", "alive": true, "phone_on": true}
+{"t": "2026-11-01T04:08:36", "alive": true, "phone_on": true}
+{"t": "2026-11-01T04:18:36", "alive": true, "phone_on": true}
+{"t": "2026-11-01T04:28:36", "alive": true, "phone_on": true}
+{"t": "2026-11-01T04:38:37", "alive": true, "phone_on": true}
+{"t": "2026-11-01T04:48:37", "alive": true, "phone_on": true}
+{"t": "2026-11-01T04:58:37", "alive": true, "phone_on": true}
+{"t": "2026-11-01T05:08:38", "alive": true, "phone_on": true}
+{"t": "2026-11-01T05:18:38", "alive": true, "phone_on": true}
+{"t": "2026-11-01T05:28:38", "alive": true, "phone_on": true}
+{"t": "2026-11-01T05:38:39", "alive": true, "phone_on": true}
+{"t": "2026-11-01T05:48:39", "alive": true, "phone_on": true}
+{"t": "2026-11-01T05:58:39", "alive": true, "phone_on": true}
+{"t": "2026-11-01T06:08:39", "alive": true, "phone_on": true}
+{"t": "2026-11-01T06:18:40", "alive": true, "phone_on": true}
+{"t": "2026-11-01T06:28:40", "alive": true, "phone_on": true}
+{"t": "2026-11-01T06:38:40", "alive": true, "phone_on": true}
+{"t": "2026-11-01T06:48:41", "alive": true, "phone_on": true}
+{"t": "2026-11-01T06:58:41", "alive": true, "phone_on": true}
+{"t": "2026-11-01T07:08:41", "alive": true, "phone_on": true}
+{"t": "2026-11-01T07:18:42", "alive": true, "phone_on": true}
+{"t": "2026-11-01T07:28:42", "alive": true, "phone_on": true}
+{"t": "2026-11-01T07:38:42", "alive": true, "phone_on": true}
+{"t": "2026-11-01T07:48:43", "alive": true, "phone_on": true}
+{"t": "2026-11-01T07:58:43", "alive": true, "phone_on": true}
+{"t": "2026-11-01T08:08:43", "alive": true, "phone_on": true}
+{"t": "2026-11-01T08:18:43", "alive": true, "phone_on": true}
+{"t": "2026-11-01T08:28:44", "alive": true, "phone_on": true}
+{"t": "2026-11-01T08:38:44", "alive": true, "phone_on": true}
+{"t": "2026-11-01T08:48:44", "alive": true, "phone_on": true}
+{"t": "2026-11-01T08:58:45", "alive": true, "phone_on": true}
+{"t": "2026-11-01T09:08:45", "alive": true, "phone_on": true}
+{"t": "2026-11-01T09:18:45", "alive": true, "phone_on": true}
+{"t": "2026-11-01T09:28:46", "alive": true, "phone_on": true}
+{"t": "2026-11-01T09:38:46", "alive": true, "phone_on": true}
+{"t": "2026-11-01T09:48:46", "alive": true, "phone_on": true}
+{"t": "2026-11-01T09:58:46", "alive": true, "phone_on": true}
+{"t": "2026-11-01T10:00:00", "event": "wake"}
+{"t": "2026-11-01T10:00:21", "event": "question", "level": "medium", "question": "(22 + 2) / 6", "answer": 4}
+{"t": "2026-11-01T10:00:24", "event": "answer", "fingers": 4, "right": true}
+{"t": "2026-11-01T10:00:25", "event": "awake"}

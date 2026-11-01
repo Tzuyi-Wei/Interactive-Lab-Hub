@@ -631,7 +631,36 @@ saw less of them, and in a dark room it would lose the phone and wake me at 3 AM
 job shrank every time I tested it (Part D and Part I): facts and arithmetic are Python's,
 tone is Qwen's.
 
-TODO: the real night: [night_log.jsonl](night_log.jsonl), and what the morning said.
+**The real night** (October 31 to November 1): [night_log.jsonl](night_log.jsonl) and
+[what the morning said](morning_output.txt).
+
+```
+00:48:28  bedtime, handed_in        phone already on the stand
+00:49:55  phone_off                 lifted for 4 seconds
+00:50:00  phone_on   away_s: 4
+          alive every 10 minutes until 10:00
+10:00:00  wake                      alarm
+10:00:21  question  (22 + 2) / 6    medium, because of the one lift
+10:00:24  answer    4 fingers       right
+10:00:25  awake
+```
+
+The morning said: "Good morning. You took your phone once last night, so this one is
+harder. What is 22 plus 2, divided by 6? ... Correct! ... Alarm off. Bedtime was set for
+00:48. The phone was put on the stand at 00:48. The phone was taken off the stand once during
+the night, for 4 seconds in total. I counted every sneak, and so does today's math!"
+
+Two things the night taught me (Bellotti's *accident*):
+
+* **Every lift is a sneak.** The one "sneak" was me straightening the phone a minute and a
+  half after bedtime. The stand cannot tell adjusting from scrolling, so my morning got
+  harder for it. A grace period after the hand-off, or only counting lifts longer than
+  half a minute, would fix it.
+* **The clock went back.** Daylight saving time ended at 2 AM, and the heartbeats go
+  01:48, 01:58, then 01:08 again. The script compares plain local times, so it kept running
+  and woke me at 10:00 on the new clock, an hour later than the night it had planned. A
+  phone taken across that hour would have had its time away measured wrong; using
+  time-zone-aware times would fix it.
 
 **Acts like.** At bedtime the stand nags until the phone is on it, then says good night.
 If I take the phone at night, it nags until the phone is back, and the morning is harder
