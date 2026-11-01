@@ -132,6 +132,8 @@ pi@raspberrypi:~ $ ollama list
 
 \*\*\***Include a screenshot of `ollama list` showing your models.**\*\*\*
 
+<img src="ollama_list.png" alt="ollama list on the Pi: qwen3:0.6b, 522 MB, and qwen3.5:0.8b, 1.3 GB" width="600" />
+
 
 ## Part B. 
 ### See: recognize people in real time with YOLO
@@ -516,6 +518,13 @@ The hand-off: the person tells the device what to watch tonight, and the device 
 
 \*\*\***Describe the interaction before.**\*\*\*
 
+The hand-off is putting the phone on the stand. I set a bedtime when I start the night
+shift (`--bedtime 00:30 --wake 08:00`). From bedtime on, the stand says "It is time for bed.
+Put your phone on the stand." every 20 seconds until the phone is on it; there is no button
+to press and nothing to say, the phone itself is the message. Once the phone has been on the
+stand for 2 seconds, the stand says "Good night. I will keep your phone." and goes quiet.
+The time of the hand-off is logged, and the morning reads it back to me.
+
 ## Part H. 
 ### Incorporate the observant system
 
@@ -530,6 +539,20 @@ Fake a night first: run it for thirty seconds while you walk around, stop it, an
 
 \*\*\***Screenshots or videos of the running system.**\*\*\*
 
+I rewrote [`overnight.py`](overnight.py) around the Lab 4 VCNL4040 proximity sensor under
+the phone stand instead of the camera. I measured about 164 with nothing on it and about
+2,600 with the phone, and a hand waving above it stayed at 165, so 1,000 is the threshold.
+A change only counts after 4 readings in a row (2 seconds), so a bump of the desk is not a
+phone being taken. It logs `handed_in`, `phone_off`, `phone_on` (with how long the phone was
+away) and `wake`, and speaks through `espeak-ng`: it nags until the phone is on the stand,
+says good night, and nags again whenever the phone is taken.
+
+A fake night (`python overnight.py --bedtime now --wake +1.5`): I put the phone down, then took
+it and put it back four times. Every one was caught, with no false alarms
+([log](partH/fake_night_log.jsonl)).
+
+<img src="partH/night_terminal.jpg" alt="Terminal: bedtime, handed_in at 00:35:08, four phone_off and phone_on pairs away 6, 6, 9 and 4 seconds, then wake at 00:36:29" width="600" />
+
 ## Part I. 
 ### Design the interaction after
 
@@ -541,6 +564,44 @@ The reveal. The night produced a log; the morning turns it into something a half
 
 Make it yours: show the report on the Mini PiTFT, read it aloud with Piper from Lab 3, plot the night as a timeline, or ask for JSON (`--json`, Part D) and move a servo. Whatever you pick, make sure it is honest about a night in which nothing happened.
 
+My [`morning.py`](morning.py) is an alarm that only stops when I get out of bed and do
+math:
+
+1. It reads last night's log and sets the difficulty: phone never taken is one easy
+   question (`13 - 5`), taken once is one medium question (`(14 + 4) / 2`), taken twice or
+   more is two hard questions in a row (`(7 x 9 - 42) / 3`).
+2. It beeps until the camera sees a hand, which means I am standing at the stand on my
+   desk, away from the bed. Then it stops and reads the question aloud.
+3. I answer by holding up fingers for 2 seconds (MediaPipe hands, both hands added up). A
+   wrong answer gets a new question. If no hand is seen for 20 seconds, it decides I went
+   back to bed and the alarm comes back.
+4. When I am done, it tells me about my night.
+
+**Fingers only say 1 to 10**, so Python picks the answer first and builds the question
+around it. I checked 6,000 generated questions and all had the right answer between 1 and 10.
+
+**What Qwen is allowed to say.** I first let Qwen write the whole report from the log. It got
+the facts wrong: "your night ended at 00:30" (that was bedtime), "about two hours" for 26
+minutes, once "a quiet night" after I had taken the phone. So Python now reads out the
+facts word for word ("The phone was put on the stand at 00:35. The phone was taken off the
+stand 4 times during the night, for 25 seconds in total."), and Python decides the verdict.
+Qwen only adds one sentence of reaction, given the verdict and three examples. A sentence
+with any number, a "good night", or a refusal is replaced by a fixed line. Even so, the tone
+can be wrong: after four sneaks it once said "It was truly exhausting to keep your phone away
+all night". The facts are always right; the joke is not always on target. That is the honest
+limit of a 0.8B model.
+
+<img src="partH/morning_question.jpg" alt="Camera window: Q: (7 x 9 - 55) / 8 = ?, one finger held up with the hand skeleton drawn, fingers: 1" width="380" />
+<img src="partH/morning_report.jpg" alt="Terminal of the morning: the greeting, two hard questions, one wrong answer, Correct, and the final report of the night" width="520" />
+
+**Counting fingers went wrong with two hands.** Holding up one finger while my other hand
+rested at my chin counted as 6: the relaxed fingers had their tips farther from the wrist
+than their middle joints, which was my first rule for "up". Now a finger only counts when it
+is straight from knuckle to tip, and the thumb only when it sticks out past the index
+knuckle. `python morning.py --practice` shows the count without the alarm, to check it.
+
+<img src="partH/morning_miscount.jpg" alt="Camera window: one finger up on my right hand, my left hand resting at my chin, and the count says fingers: 6" width="380" />
+
 ## Final documentation
 
 Document all the prototypes and iterations you have designed and worked on. The deliverables for this lab are writings, sketches, photos, and videos that show what your system:
@@ -550,6 +611,34 @@ Document all the prototypes and iterations you have designed and worked on. The 
 * "Acts like": how a person hands the night over and what they get back.
 
 \*\*\***Include a short video of the whole system**\*\*\*
+
+**Looks like.** A round stand on my desk, across the room from my bed, with the phone
+standing on top, the proximity sensor under the phone, the speaker and the webcam in front.
+
+TODO: photos of the stand on the desk at night and in the morning.
+
+**Works like.** Two scripts and one log file:
+
+| Stage | At night ([`overnight.py`](overnight.py)) | In the morning ([`morning.py`](morning.py)) |
+|---|---|---|
+| Detector | VCNL4040 proximity under the phone, twice a second | Webcam + MediaPipe hands |
+| Interpreter | above 1,000 for 4 readings in a row = phone on | straight fingers, both hands added up, held 2 s |
+| Log | `night_log.jsonl`: handed_in, phone_off, phone_on, wake | question, answer, walked_away, awake |
+| Reasoner | none at night | Python counts the facts and picks the difficulty; Qwen adds one sentence |
+
+The sensor replaced the camera at night because Part B showed YOLO losing people when it
+saw less of them, and in a dark room it would lose the phone and wake me at 3 AM. Qwen's
+job shrank every time I tested it (Part D and Part I): facts and arithmetic are Python's,
+tone is Qwen's.
+
+TODO: the real night: [night_log.jsonl](night_log.jsonl), and what the morning said.
+
+**Acts like.** At bedtime the stand nags until the phone is on it, then says good night.
+If I take the phone at night, it nags until the phone is back, and the morning is harder
+for it. In the morning I have to get up, stand at the desk and do math with my fingers;
+then I hear when I gave up my phone and how many times I took it back.
+
+TODO: link to the video of the whole system.
 
 As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
 

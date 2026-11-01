@@ -33,6 +33,8 @@ parser.add_argument("--model", default="qwen3.5:0.8b")
 parser.add_argument("--show", action="store_true", help="show the camera with the finger count (needs VNC)")
 parser.add_argument("--hold", type=float, default=2.0, help="seconds an answer must be held")
 parser.add_argument("--away", type=float, default=20.0, help="seconds without a hand before the alarm comes back")
+parser.add_argument("--practice", action="store_true",
+                    help="no alarm, no question: just show the finger count to check it (needs VNC)")
 args = parser.parse_args()
 
 
@@ -197,13 +199,22 @@ def dist(a, b):
     return math.hypot(a.x - b.x, a.y - b.y)
 
 
-def count_fingers(hand):
-    """Fingers up on one hand. A finger is up when its tip is farther from the wrist than
-    its middle joint, which works however the hand is turned. The thumb is up when its tip
-    is farther from the base of the little finger than its own middle joint."""
+def straightness(lm, ids):
+    """1.0 when the joints lie on a straight line, less the more the finger bends."""
+    path = sum(dist(lm[a], lm[b]) for a, b in zip(ids, ids[1:]))
+    return dist(lm[ids[0]], lm[ids[-1]]) / path if path else 0
+
+
+def count_fingers(hand, straight=0.93):
+    """Fingers up on one hand. A finger is up when it is straight from knuckle to tip and
+    points away from the wrist. Only checking that the tip is farther from the wrist than
+    the middle joint counted a relaxed hand resting at my chin as five fingers. The thumb is
+    up when it is straight and sticks out past the knuckle of the index finger."""
     lm = hand.landmark
-    up = sum(dist(lm[tip], lm[0]) > dist(lm[tip - 2], lm[0]) for tip in (8, 12, 16, 20))
-    up += dist(lm[4], lm[17]) > dist(lm[3], lm[17])
+    up = sum(straightness(lm, (tip - 3, tip - 2, tip - 1, tip)) > straight
+             and dist(lm[tip], lm[0]) > dist(lm[tip - 2], lm[0])
+             for tip in (8, 12, 16, 20))
+    up += straightness(lm, (2, 3, 4)) > straight and dist(lm[4], lm[17]) > 1.1 * dist(lm[5], lm[17])
     return up
 
 
@@ -215,6 +226,21 @@ draw = mp.solutions.drawing_utils
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
+if args.practice:                               # check the finger count, then quit with q
+    while True:
+        ok, frame = cap.read()
+        if not ok:
+            continue
+        found = hands.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)).multi_hand_landmarks or []
+        counts = [count_fingers(h) for h in found]
+        for h in found:
+            draw.draw_landmarks(frame, h, mp.solutions.hands.HAND_CONNECTIONS)
+        cv2.putText(frame, f"fingers: {sum(counts)}  per hand: {counts}", (10, 35),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+        cv2.imshow("Sleep Gatekeeper practice", frame)
+        if cv2.waitKey(1) == ord("q"):
+            raise SystemExit
 
 alarm = Alarm()
 alarm.start()

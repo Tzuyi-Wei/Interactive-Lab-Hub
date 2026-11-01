@@ -1,22 +1,22 @@
-{"t": "2026-11-01T00:23:34", "event": "start", "bedtime": "2026-11-01T00:23", "wake": "2026-11-01T00:26", "phone_on": false}
-{"t": "2026-11-01T00:23:34", "event": "bedtime"}
-{"t": "2026-11-01T00:23:34", "alive": true, "phone_on": false}
-{"t": "2026-11-01T00:23:41", "event": "handed_in"}
-{"t": "2026-11-01T00:23:54", "event": "phone_off"}
-{"t": "2026-11-01T00:24:01", "event": "phone_on", "away_s": 7}
-{"t": "2026-11-01T00:24:19", "event": "phone_off"}
-{"t": "2026-11-01T00:24:23", "event": "phone_on", "away_s": 4}
-{"t": "2026-11-01T00:24:49", "event": "phone_off"}
-{"t": "2026-11-01T00:24:59", "event": "phone_on", "away_s": 10}
-{"t": "2026-11-01T00:26:34", "event": "wake"}
-{"t": "2026-11-01T00:27:22", "event": "question", "level": "hard", "question": "(10 x 6 - 54) / 6", "answer": 1}
-{"t": "2026-11-01T00:27:46", "event": "walked_away"}
-{"t": "2026-11-01T00:28:05", "event": "question", "level": "hard", "question": "(9 x 3 - 17) / 5", "answer": 2}
-{"t": "2026-11-01T00:28:31", "event": "answer", "fingers": 2, "right": true}
-{"t": "2026-11-01T00:28:41", "event": "question", "level": "hard", "question": "(12 x 10 - 99) / 3", "answer": 7}
-{"t": "2026-11-01T00:28:53", "event": "answer", "fingers": 3, "right": false}
-{"t": "2026-11-01T00:29:06", "event": "question", "level": "hard", "question": "(10 x 6 - 48) / 4", "answer": 3}
-{"t": "2026-11-01T00:29:29", "event": "walked_away"}
-{"t": "2026-11-01T00:29:49", "event": "question", "level": "hard", "question": "(6 x 7 - 27) / 3", "answer": 5}
-{"t": "2026-11-01T00:30:10", "event": "answer", "fingers": 5, "right": true}
-{"t": "2026-11-01T00:30:12", "event": "awake"}
+{"t": "2026-11-01T00:34:59", "event": "start", "bedtime": "2026-11-01T00:34", "wake": "2026-11-01T00:36", "phone_on": false}
+{"t": "2026-11-01T00:34:59", "event": "bedtime"}
+{"t": "2026-11-01T00:34:59", "alive": true, "phone_on": false}
+{"t": "2026-11-01T00:35:08", "event": "handed_in"}
+{"t": "2026-11-01T00:35:21", "event": "phone_off"}
+{"t": "2026-11-01T00:35:27", "event": "phone_on", "away_s": 6}
+{"t": "2026-11-01T00:35:31", "event": "phone_off"}
+{"t": "2026-11-01T00:35:37", "event": "phone_on", "away_s": 6}
+{"t": "2026-11-01T00:35:40", "event": "phone_off"}
+{"t": "2026-11-01T00:35:49", "event": "phone_on", "away_s": 9}
+{"t": "2026-11-01T00:36:01", "event": "phone_off"}
+{"t": "2026-11-01T00:36:05", "event": "phone_on", "away_s": 4}
+{"t": "2026-11-01T00:36:29", "event": "wake"}
+{"t": "2026-11-01T00:36:50", "event": "question", "level": "hard", "question": "(7 x 9 - 14) / 7", "answer": 7}
+{"t": "2026-11-01T00:37:04", "event": "answer", "fingers": 1, "right": false}
+{"t": "2026-11-01T00:37:16", "event": "question", "level": "hard", "question": "(7 x 9 - 55) / 8", "answer": 1}
+{"t": "2026-11-01T00:37:32", "event": "answer", "fingers": 1, "right": true}
+{"t": "2026-11-01T00:37:42", "event": "question", "level": "hard", "question": "(10 x 5 - 46) / 4", "answer": 1}
+{"t": "2026-11-01T00:37:48", "event": "answer", "fingers": 6, "right": false}
+{"t": "2026-11-01T00:38:00", "event": "question", "level": "hard", "question": "(11 x 11 - 76) / 9", "answer": 5}
+{"t": "2026-11-01T00:38:03", "event": "answer", "fingers": 5, "right": true}
+{"t": "2026-11-01T00:38:04", "event": "awake"}
