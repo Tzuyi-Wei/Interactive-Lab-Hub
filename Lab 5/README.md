@@ -570,8 +570,8 @@ math:
 1. It reads last night's log and sets the difficulty: phone never taken is one easy
    question (`13 - 5`), taken once is one medium question (`(14 + 4) / 2`), taken twice or
    more is two hard questions in a row (`(7 x 9 - 42) / 3`).
-2. It beeps until the camera sees a hand, which means I am standing at the stand on my
-   desk, away from the bed. Then it stops and reads the question aloud.
+2. It beeps until the camera sees a hand, which means I am up and standing in front of the
+   box. Then it stops and reads the question aloud.
 3. I answer by holding up fingers for 2 seconds (MediaPipe hands, both hands added up). A
    wrong answer gets a new question. If no hand is seen for 20 seconds, it decides I went
    back to bed and the alarm comes back.
@@ -615,8 +615,9 @@ Document all the prototypes and iterations you have designed and worked on. The 
 **Looks like.** A cardboard box with its foam packing left in. The left hollow of the foam
 is the phone's bed, with the proximity sensor at the bottom so the phone lies right on top of
 it. The speaker sits in the right hollow, the webcam stands on the lid flap behind and looks
-out over the box, and the Pi with the Mini PiTFT is taped to the side. It stays on a table
-away from my bed, so answering the alarm means getting up.
+out over the box, and the Pi with the Mini PiTFT is taped to the side. It sits on the table
+beside my bed, with the webcam facing the room rather than the bed, so answering the alarm
+means getting up and standing in front of it.
 
 <img src="final/stand_morning.jpg" alt="The Sleep Gatekeeper in the morning: a cardboard box with white foam inside, an empty phone hollow on the left with the Qwiic cable running into it, a black speaker in the right hollow, a webcam on the lid flap behind, and the Raspberry Pi with its small screen taped to the side of the box" width="400" />
 
@@ -670,7 +671,11 @@ If I take the phone at night, it nags until the phone is back, and the morning i
 for it. In the morning I have to get up, stand at the desk and do math with my fingers;
 then I hear when I gave up my phone and how many times I took it back.
 
-TODO: link to the video of the whole system.
+[**demo.mp4**](final/demo.mp4) shows the whole system in two and a half minutes, with a short
+night (`--bedtime now --wake +1.5`): the stand asks for the phone, I put it in and it says
+good night; I take it out, it nags until I put it back; I lie down; the alarm beeps, I get up
+and raise my hand, it reads a math question, I answer with my fingers, and it turns off and
+tells me about the night.
 
 As always, make sure you document contributions and ideas from others (and AI) explicitly in your writeup.
 
