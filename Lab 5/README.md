@@ -612,10 +612,13 @@ Document all the prototypes and iterations you have designed and worked on. The 
 
 \*\*\***Include a short video of the whole system**\*\*\*
 
-**Looks like.** A round stand on my desk, across the room from my bed, with the phone
-standing on top, the proximity sensor under the phone, the speaker and the webcam in front.
+**Looks like.** A cardboard box with its foam packing left in. The left hollow of the foam
+is the phone's bed, with the proximity sensor at the bottom so the phone lies right on top of
+it. The speaker sits in the right hollow, the webcam stands on the lid flap behind and looks
+out over the box, and the Pi with the Mini PiTFT is taped to the side. It stays on a table
+away from my bed, so answering the alarm means getting up.
 
-TODO: photos of the stand on the desk at night and in the morning.
+<img src="final/stand_morning.jpg" alt="The Sleep Gatekeeper in the morning: a cardboard box with white foam inside, an empty phone hollow on the left with the Qwiic cable running into it, a black speaker in the right hollow, a webcam on the lid flap behind, and the Raspberry Pi with its small screen taped to the side of the box" width="400" />
 
 **Works like.** Two scripts and one log file:
 
