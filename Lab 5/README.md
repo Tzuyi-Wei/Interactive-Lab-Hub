@@ -4,8 +4,7 @@
 
 **Help.** I used Claude (AI) to help polish the writing in this README, and to help write
 and debug the code for `overnight.py` and `morning.py`. The idea, the storyboards, the
-experiments and the real night are my own; my classmates' feedback shaped the revised
-storyboard.
+experiments and the real night are my own.
 
 # Part 1
 
