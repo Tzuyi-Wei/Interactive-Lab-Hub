@@ -106,8 +106,8 @@ that. A customer who waits too long leaves angry (−5).
 
 **Why it is interesting.** The two pans are identical, so the team decides how to split the work:
 one player can grill while the other chops and assembles, or both can do everything. Cooked food
-sits in a player's own "ready" tray, and a **forward swing** of the pan throws one item to the
-partner's tray. That is the point where two devices have to cooperate, and it only works because
+sits in a player's own "ready" tray, and at the assembly station a **forward swing** of the pan
+throws one item to the partner's tray. That is the point where two devices have to cooperate, and it only works because
 the laptop keeps one shared state for both. There is also a single-player mode (fewer, more
 patient customers) and three levels.
 
@@ -195,28 +195,30 @@ and picked the thresholds from the peaks of each motion:
 
 The chops were recorded with the pan held like a knife; now that the pan stays flat, the chop
 threshold still needs a new recording. Flip and toss both jolt the pan upward; the forward axis separates them (flips ≤ 7.4, tosses ≥
-11.7, so the line is at 9.5). The classifier only runs in the matching mode, so a chop can never
-be read as a flip:
+11.7, so the line is at 9.5). The classifier depends on the mode, so a chop can never be read as a
+flip. Throwing only works at the assembly station; on the grill a forward swing is simply ignored,
+so it does not flip the patty:
 
 ```python
-elif s['a'] > TRIGGER_A and t >= self.lock_until and self.mode in ('grill', 'board'):
+elif s['a'] > TRIGGER_A and t >= self.lock_until:
     self.capture = list(self.recent)          # 0.1 s before the jolt ...
     self.capture_until = t + WINDOW_AFTER     # ... and 0.35 s after it
 
 def classify(self, w):
     peak = lambda k: max(abs(x[k]) for x in w)
     if self.mode == 'grill':
-        if peak('ax') > TOSS_MIN_FORWARD:                              # 9.5
-            return 'toss'
-        if peak('a') > FLIP_MIN_A and peak('gy') > FLIP_MIN_ROT:       # 20, 5
+        if (peak('ax') <= TOSS_MIN_FORWARD                             # 9.5
+                and peak('a') > FLIP_MIN_A and peak('gy') > FLIP_MIN_ROT):  # 20, 5
             return 'flip'
     elif self.mode == 'board' and peak('a') > CHOP_MIN_A:              # 16
         return 'chop'
+    elif self.mode == 'assembly' and peak('ax') > TOSS_MIN_FORWARD:
+        return 'toss'
 ```
 
 `burger/pi/replay.py` feeds a recording through the same detector on the laptop. On our
-recording it finds 5 of 5 flips and 5 of 5 tosses, and nothing at all while the pan is carried
-around without flipping.
+recording it finds 5 of 5 flips and, with the pan in assembly mode, 5 of 5 tosses, and nothing at
+all while the pan is carried around without flipping.
 
 ### Reading the cards
 
