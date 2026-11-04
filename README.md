@@ -8,5 +8,5 @@ Links to the README.md for each of my labs:
 - [Lab 3. Chatterboxes](Lab%203/)
 - [Lab 4. Ph-UI!!!](Lab%204/)
 - [Lab 5. Observant Systems](Lab%205/)
-- Lab 6. Little Interactions Everywhere
+- [Lab 6. Little Interactions Everywhere](Lab%206/)
 - Final Project
