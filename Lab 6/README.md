@@ -332,10 +332,9 @@ the sound, not about the connection between the pans. The main challenge we desi
 act at the same moment. The laptop is the only referee, so whatever arrives first wins and both
 players see the same result.
 
-**What we would improve.** People asked for more sensitive sensors, so we would keep working on
-that: add a card slot with a white LED around the colour sensor to keep the distance and light the
-same, and record the motions again with the 6-DoF sensor in its new position. We would then test
-these changes with new players to see whether the sensing feels better.
+**What we would improve.** People asked for more sensitive sensors, so we would record the motions
+again with the 6-DoF sensor in its new position. We would then test this change with new players
+to see whether the sensing feels better.
 
 **Where did computation happen, and why there?** Motion recognition and card reading run on each
 pan, and only the result is sent, because 100 samples a second over a shared broker would be too
