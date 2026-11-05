@@ -1,6 +1,6 @@
 # Distributed Interaction
 
-**TODO: team names (netIDs)**
+**Tzuyi (Monica) Wei (tw628), Alison Liu (cl2889)**
 
 **Help.** We used Claude (AI) to help write and debug the code (`burger/server.py`, the big
 screen page and `burger/pi/pan.py`) and to analyse the motion recordings. The game idea, the
@@ -88,15 +88,15 @@ burger they want and a patience bar.
 
 Every burger is built **bottom to top**: bun → fillings in the customer's order → bun. Fillings
 are random (only the buns are required): one customer wants two patties and cheese, the next one
-only lettuce. Ingredients are **colour cards** (sticky notes: orange, pink, yellow and blue) held
-to the pan's colour sensor, and some of them need work first:
+only lettuce. Ingredients are **colour cards** (brown cardboard, a white object, and pink and blue sticky
+notes) held to the pan's colour sensor, and some of them need work first:
 
 | Ingredient | Card | Work needed |
 |---|---|---|
 | Patty | pink | Grill it: put the card in the pan, **toss the pan up** to flip it when the side facing down is done. Both sides cooked = ready; wait too long = burnt (−3) |
 | Lettuce | blue | Chop it: **chop down** with the pan 5 times |
-| Cheese | yellow | Nothing |
-| Bun | orange | Nothing |
+| Cheese | white | Nothing |
+| Bun | brown | Nothing |
 
 Each pan can be one of three stations, and the player switches with the two buttons on the
 PiTFT (A = previous, B = next): **grill** (screen red, "PAN"), **board** (green, "KNIFE") and
@@ -149,6 +149,7 @@ flowchart LR
 
 The pan is a piece of cardboard held like a paddle. The two sensors are taped to the front,
 where the cards are held; the Pi and its screen are taped to the back, facing the player's hand.
+These photos show the first version; section 4 shows how the pan changed after user testing.
 
 <img src="imgs/pan_9910.jpg" alt="Front of the pan: a cardboard board held in one hand, with the APDS-9960 (left) and the LSM6DS3 board (right) taped to it, joined by a Qwiic cable; both boards' green power LEDs are on" width="340" />
 <img src="imgs/pan_9911.jpg" alt="Back of the pan: a Raspberry Pi taped to the cardboard with a USB-C power cable, its Mini PiTFT showing a red screen with P1 and PAN (grill mode); on the table behind it, the ingredient cards: orange, pink, yellow and blue sticky notes" width="340" />
@@ -182,7 +183,7 @@ players.
 
 ### Recognising motion from real data
 
-We first recorded every motion with `burger/pi/record_motion.py` (100 Hz, ten labelled steps such
+Before user testing, we recorded every motion with `burger/pi/record_motion.py` (100 Hz, ten labelled steps such
 as "flip 5 times", "hold it like a pan and wander around without flipping") into
 [`burger/pi/recordings/motion_20261103_193039.csv`](burger/pi/recordings/motion_20261103_193039.csv),
 and picked the thresholds from the peaks of each motion:
@@ -284,60 +285,67 @@ if card in ('meat', 'lettuce'):
 
 ## 4. User testing
 
-**TODO (Wednesday): test with 2+ people not on our team.**
+[Video of user testing](videos/user_test.mp4) (61 s, opens or downloads as a file)
 
-* Photos / video of use
-* What did they think before trying?
-* What surprised them?
-* What would they change?
+* **Before trying.** They were excited to play.
+* **What surprised them.** Using colour cards as ingredients, read by a colour sensor, felt new
+  to them.
+* **Overall.** They found it very fun.
+* **What they would change.** More sensitive sensors, and more sound effects.
+
+### What we changed after the feedback
+
+**1. More sound and more pressure.** We added background music and cooking sounds. When a customer
+is about to get angry, more effects build up on top of the music: a heartbeat and an alarm, the
+edges of the screen turn red, and the customer's speech bubble shakes.
+
+Music: <a href="https://breakingcopyright.com/song/alex-productions-cooking">Cooking</a> by Alex Productions | Creative Commons (BY 3.0) | <a href="https://creativecommons.org/licenses/by/3.0/">License</a>
+
+**2. More reliable sensing.** We moved the 6-DoF sensor to the very front of the cardboard, and
+found that this tells flip and toss apart more accurately.
+
+<img src="imgs/improvement4.jpeg" alt="Two photos of the sensors taped to the cardboard. Top: the APDS-9960 and the 6-DoF sensor side by side. Bottom: the 6-DoF sensor moved up to the front edge of the cardboard, with the APDS-9960 further back" width="360" />
+
+We also changed the colour of the cheese card from yellow to white, so that it is not confused
+with the patty or the bun.
+
+<img src="imgs/final_color_cards.jpeg" alt="The final cards, labelled by hand: bun is a piece of brown cardboard, cheese is a white object, lettuce is a blue sticky note and patty is a pink sticky note" width="420" />
+
+**3. A pan that looks like a pan.** We taped a paper plate to the end of the cardboard, so the
+controller looks closer to a real pan with a handle and the game feels more immersive.
+
+<img src="imgs/final_pans.JPG" alt="The two final pans side by side on a table: each is a long piece of cardboard with a round paper plate taped to the far end, and the sensors and their cables taped on top" width="520" />
+
+[Video of the final version](videos/full_version.mp4) (25 s, opens or downloads as a file)
 
 ---
 
 ## 5. Reflection
 
-**What worked well.** Recording the motions first and picking thresholds from the numbers.
-Flip, toss and chop are distinct enough that a few rules recognise them, and replaying the
-recording on the laptop let us test every change without the hardware. Keeping all the game state
-on the laptop also kept the pans simple: they never need to know what the other pan is doing.
+Our reflection is based on what we learned from user testing.
 
-**Challenges with distributed interaction.**
+**What worked well.** Turning colour sensing into a physical game action worked: it was what
+surprised players in section 4. Keeping all the game state on the laptop also kept the pans simple.
 
-* *One referee.* Two pans can act at the same moment (both throw, both serve). If each pan kept
-  its own copy of the game they could disagree; with the laptop as the only referee, whatever it
-  receives first wins and both screens show the same thing.
-* *Who is in charge of the mode.* The pan decides its own mode, but the server resets everyone
-  to grill when a round starts. A pan that is in assembly mode then disagrees with the screen.
-  The pans now re-send their mode when a round starts and every 5 seconds, which also tells the
-  big screen whether a pan is connected (🟢 / ⚪).
-* *Debugging over a network.* When the screen "didn't move", the cause was not the network but
-  the round having ended, so the server ignored every input. Printing every input on the server
-  with "(ignored: game is over)" made that visible.
+**How the sensor events worked.** Colour sensing and motion sensing are the most important
+interactions in this project, but they often missed an input or read it wrong during our own
+testing, and this was also the first thing people brought up in user testing. The colour sensor
+was the harder one: the APDS-9960 has no light of its own, so the same card read differently
+depending on distance, angle and light.
 
-**How the sensor events worked.** The IMU was the easy part. The **colour sensor was the hard
-part**. The APDS-9960 has no light of its own and reads whatever light the card reflects:
+**Challenges with distributed interaction.** The suggestions we received were about the sensors and
+the sound, not about the connection between the pans. The main challenge we designed for is that two pans can
+act at the same moment. The laptop is the only referee, so whatever arrives first wins and both
+players see the same result.
 
-* The first calibration read every card as mostly green, even the warm-coloured ones. Holding a
-  card close blocks the room light, and whatever light is left is not the light the card was meant
-  to be seen in. (We first blamed the PiTFT's light and made the screen flash white while reading a
-  card, but the screen is on the back of the pan, so it cannot light the cards.)
-* The default colour integration time is 0.7 s per reading, so a card held up briefly was read
-  with the colour from *before* it arrived. We changed it to 0.1 s and wait for a fresh reading.
-* Re-measuring one card once recorded the empty air ("meat" = the room light), after which
-  everything was read as meat. Calibration now measures "no card" first and refuses a card that
-  reads like it.
-* With our own white light, the cards separated well (all pairs ≥ 0.52), but the same card read
-  differently from one calibration to the next (meat red share 0.55, then 0.43). The reading
-  depends on distance and angle more than on the card.
+**What we would improve.** People asked for more sensitive sensors, so we would keep working on
+that: add a card slot with a white LED around the colour sensor to keep the distance and light the
+same, and record the motions again with the 6-DoF sensor in its new position. We would then test
+these changes with new players to see whether the sensing feels better.
 
-**What we would improve.**
-
-* A **card slot**: a short black tube around the colour sensor with a white LED inside, closed
-  by the card. Fixed distance, fixed light, no room light, so the reading would be the same every
-  time. (Or a TCS34725, a colour sensor with its own LED.)
-* **TODO after Wednesday's feedback.**
-
-**Where did computation happen, and why there?** Motion recognition runs **on each pan**, at
-100 Hz: 100 samples a second of six numbers are too many to send over a shared broker, and the
-latency would make flips feel late. Only the result (`flip`) is sent. The **game runs on the
-laptop**, because there has to be exactly one place that decides what happened when both players
-act. We did not use a language model: every decision here has to be fast and the same every time.
+**Where did computation happen, and why there?** Motion recognition and card reading run on each
+pan, and only the result is sent, because 100 samples a second over a shared broker would be too
+much data and make the pan feel late. The game runs on the laptop, because exactly one place has to
+decide what happened when both players act. This split also made the feedback easy to act on: the
+new sound and red screen only changed the laptop's page, and the sensor changes only changed the
+pans. We did not use a language model: every decision here has to be fast and the same every time.
