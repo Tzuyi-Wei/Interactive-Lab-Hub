@@ -34,12 +34,6 @@ to one referee over MQTT.
    up and down. This grew into Pan Burger: more ingredients, chopping and stacking, and passing
    food between the two pans.
 
-**Inventing our own topics.** MQTT agreed on nothing in advance, which made it quick to start:
-we picked topics like `IDD/panburger/burger/p1/gesture` and payloads like `{"type": "flip"}`
-and could test them with `mosquitto_pub` before any Pi code existed. The cost is that nothing
-else understands them; a "light" in Matter behaves the same everywhere, our "flip" only means
-something to our server.
-
 ---
 
 # Part B. Collaborative Pixel Grid
